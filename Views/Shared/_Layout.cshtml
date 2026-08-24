@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@SiteInfo.GetDocumentTitle(ViewData["Title"]?.ToString(), ViewData["MetaTitle"]?.ToString())</title>
+    <link rel="manifest" href="~/site.webmanifest" asp-append-version="true" />
+    <partial name="_SeoMeta" />
+    <link rel="stylesheet" href="~/css/fonts.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap-utilities.min.css" />
+    <link rel="stylesheet" href="~/css/main.css" asp-append-version="true" />
+    @await RenderSectionAsync("Styles", required: false)
+    <partial name="_GoogleAnalytics" />
+</head>
+<body class="@(ViewData["BodyClass"] ?? "")">
+    <partial name="_Header" />
+    <main id="main-content">
+        @RenderBody()
+    </main>
+    <partial name="_Footer" />
+    <partial name="_BookingModal" model="new Izotoff.ViewModels.BookingCreateViewModel()" />
+    <partial name="_CookieConsent" />
+
+    <script src="~/js/main.js" asp-append-version="true"></script>
+    <partial name="_ValidationScriptsPartial" />
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

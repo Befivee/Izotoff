@@ -1,0 +1,54 @@
+<footer class="site-footer">
+    <div class="container-xl">
+        <div class="site-footer__grid">
+            <div class="site-footer__brand">
+                <a class="site-logo site-logo--footer" asp-controller="Home" asp-action="Index">
+                    <partial name="_SiteLogoMark" />
+                    <span class="site-logo__text">
+                        <span class="site-logo__name">@SiteInfo.CastleName</span>
+                        <span class="site-logo__sub">сыроварня и виноградник</span>
+                    </span>
+                </a>
+                <p class="site-footer__tagline">@SiteInfo.Location</p>
+            </div>
+
+            <nav class="site-footer__nav" aria-label="Навигация в подвале">
+                <h3 class="site-footer__heading">Разделы</h3>
+                <ul>
+                    <li><a asp-controller="Home" asp-action="Index">Главная</a></li>
+                    <li><a asp-controller="News" asp-action="Index">Новости</a></li>
+                    <li><a asp-controller="Rental" asp-action="Index">Аренда</a></li>
+                    <li><a asp-controller="Event" asp-action="Index">Мероприятия</a></li>
+                    <li><a asp-controller="Excursion" asp-action="Index">Экскурсии</a></li>
+                    <li><a asp-controller="Contacts" asp-action="Index">Контакты</a></li>
+                    <li><a asp-controller="Privacy" asp-action="PrivacyPolicy">Политика конфиденциальности</a></li>
+                    <li><a asp-controller="Privacy" asp-action="PersonalDataPolicy">Обработка персональных данных</a></li>
+                </ul>
+            </nav>
+
+            <div class="site-footer__contacts">
+                <h3 class="site-footer__heading">Контакты</h3>
+                <ul>
+                    <li><a href="tel:@SiteInfo.PhoneTel">@SiteInfo.Phone</a></li>
+                    @if (!string.IsNullOrWhiteSpace(SiteInfo.Phone2))
+                    {
+                        <li><a href="tel:@SiteInfo.Phone2Tel">@SiteInfo.Phone2</a></li>
+                    }
+                    <li>@SiteInfo.WorkingHours</li>
+                </ul>
+                <partial name="_SocialLinks" />
+            </div>
+
+            <div class="site-footer__map">
+                <h3 class="site-footer__heading">На карте</h3>
+                <partial name="_YandexMap" model="@("sm")" />
+                <a href="@SiteInfo.YandexMapsUrl" target="_blank" rel="noopener" class="link-arrow">Открыть в Яндекс.Картах</a>
+            </div>
+        </div>
+
+        <div class="site-footer__bottom">
+            <p class="site-footer__disclaimer">Информация и цены, представленные на сайте, не являются публичной офертой.</p>
+            <p>&copy; @SiteInfo.CastleName, @DateTime.Now.Year. Все права защищены.</p>
+        </div>
+    </div>
+</footer>

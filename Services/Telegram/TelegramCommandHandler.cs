@@ -1,0 +1,241 @@
+﻿using System.Diagnostics;
+using Microsoft.Extensions.Options;
+using Telegram.Bot;
+using Telegram.Bot.Polling;
+using Telegram.Bot.Types;
+using Izotoff.Options;
+using Izotoff.Services.Bot;
+
+namespace Izotoff.Services.Telegram;
+
+public class TelegramCommandHandler(
+    IServiceScopeFactory scopeFactory,
+    TelegramStateService stateService,
+    IOptions<TelegramBotOptions> options,
+    ILogger<TelegramCommandHandler> logger) : IUpdateHandler
+{
+    private static readonly TimeSpan UpdateTimeout = TimeSpan.FromSeconds(55);
+    private readonly SemaphoreSlim _concurrency = new(4, 4);
+
+    /// <summary>Не блокирует long polling — обработка идёт в фоне.</summary>
+    public Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
+    {
+        _ = ProcessUpdateAsync(botClient, update);
+        return Task.CompletedTask;
+    }
+
+    private async Task ProcessUpdateAsync(ITelegramBotClient botClient, Update update)
+    {
+        await _concurrency.WaitAsync();
+        var sw = Stopwatch.StartNew();
+
+        try
+        {
+            using var cts = new CancellationTokenSource(UpdateTimeout);
+
+            if (update.Message is { } message)
+                await HandleMessageAsync(botClient, message, cts.Token);
+        }
+        catch (OperationCanceledException)
+        {
+            logger.LogWarning("Telegram update {UpdateId} отменён по таймауту {TimeoutSeconds} с.", update.Id, UpdateTimeout.TotalSeconds);
+            await TrySendErrorAsync(botClient, update, "⏱ Ответ занял слишком много времени. Попробуйте ещё раз или /start.");
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Необработанная ошибка Telegram update {UpdateId}", update.Id);
+            await TrySendErrorAsync(botClient, update, "⚠️ Произошла ошибка. Попробуйте /start.");
+        }
+        finally
+        {
+            sw.Stop();
+            if (sw.ElapsedMilliseconds > 3000)
+            {
+                logger.LogWarning(
+                    "Telegram update {UpdateId} обработан медленно: {ElapsedMs} ms",
+                    update.Id,
+                    sw.ElapsedMilliseconds);
+            }
+            else
+            {
+                logger.LogDebug(
+                    "Telegram update {UpdateId} обработан за {ElapsedMs} ms",
+                    update.Id,
+                    sw.ElapsedMilliseconds);
+            }
+
+            _concurrency.Release();
+        }
+    }
+
+    public Task HandleErrorAsync(
+        ITelegramBotClient botClient,
+        Exception exception,
+        HandleErrorSource source,
+        CancellationToken cancellationToken)
+    {
+        if (IsPollingTimeout(exception))
+        {
+            logger.LogDebug(exception, "Telegram long poll timeout ({Source}).", source);
+            return Task.CompletedTask;
+        }
+
+        logger.LogError(exception, "Ошибка Telegram polling ({Source}).", source);
+        return Task.CompletedTask;
+    }
+
+    private static bool IsPollingTimeout(Exception exception) =>
+        exception is global::Telegram.Bot.Exceptions.RequestException
+        {
+            InnerException: TaskCanceledException or TimeoutException
+        };
+
+    private async Task TrySendErrorAsync(ITelegramBotClient botClient, Update update, string text)
+    {
+        var chatId = update.Message?.Chat.Id;
+        if (!chatId.HasValue)
+            return;
+
+        try
+        {
+            using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(15));
+            await botClient.SendMessage(chatId.Value, text, cancellationToken: cts.Token);
+        }
+        catch (Exception ex)
+        {
+            logger.LogDebug(ex, "Не удалось отправить сообщение об ошибке в chat {ChatId}.", chatId);
+        }
+    }
+
+    private async Task HandleMessageAsync(
+        ITelegramBotClient botClient,
+        Message message,
+        CancellationToken cancellationToken)
+    {
+        var chatId = message.Chat.Id;
+
+        if (!IsAdmin(chatId))
+        {
+            if (IsStartCommand(message.Text))
+            {
+                await botClient.SendMessage(
+                    chatId,
+                    CastleAdminContentService.BuildPublicWelcomeText(GetSiteUrl()),
+                    cancellationToken: cancellationToken);
+                return;
+            }
+
+            if (CastleAdminContentService.IsExcursionsRequest(message.Text))
+            {
+                await TelegramProcessingIndicator.RunAsync(
+                    botClient,
+                    chatId,
+                    logger,
+                    cancellationToken,
+                    () => WithContent(c => SendPublicExcursionsAsync(botClient, chatId, c, cancellationToken), cancellationToken));
+                return;
+            }
+
+            await botClient.SendMessage(
+                chatId,
+                CastleAdminContentService.BuildPublicWelcomeText(GetSiteUrl()),
+                cancellationToken: cancellationToken);
+            return;
+        }
+
+        if (message.Text?.StartsWith("/start", StringComparison.OrdinalIgnoreCase) == true)
+        {
+            stateService.GetOrCreate(chatId).Reset();
+            await WithManager(botClient, chatId, m => m.SendMainMenuAsync(botClient, chatId, cancellationToken), cancellationToken);
+            return;
+        }
+
+        var session = stateService.GetOrCreate(chatId);
+        NormalizeLegacySession(session);
+
+        if (message.Photo is { Length: > 0 })
+        {
+            if (session.State is TelegramBotState.WaitingForEventImage or TelegramBotState.WaitingForNewImage)
+            {
+                await WithManager(botClient, chatId, m => m.HandlePhotoMessageAsync(botClient, message, cancellationToken), cancellationToken);
+                return;
+            }
+
+            await botClient.SendMessage(chatId, "🖼 Сейчас фото не ожидается.", cancellationToken: cancellationToken);
+            return;
+        }
+
+        if (!string.IsNullOrWhiteSpace(message.Text))
+        {
+            if (session.State != TelegramBotState.None)
+            {
+                await WithManager(botClient, chatId, m => m.HandleTextMessageAsync(botClient, message, cancellationToken), cancellationToken);
+                return;
+            }
+
+            await WithManager(botClient, chatId, m => m.HandleMenuTextAsync(botClient, chatId, message.Text.Trim(), cancellationToken), cancellationToken);
+            return;
+        }
+
+        await botClient.SendMessage(
+            chatId,
+            "Команда не распознана. Отправьте /start для открытия панели управления.",
+            cancellationToken: cancellationToken);
+    }
+
+    private static void NormalizeLegacySession(TelegramUserSession session)
+    {
+        if (session.Screen is BotScreen.Excursions or BotScreen.ExcursionDetail)
+            session.Reset();
+
+        if ((int)session.State > (int)TelegramBotState.WaitingForNewImage)
+            session.State = TelegramBotState.None;
+    }
+
+    private static bool IsStartCommand(string? text)
+    {
+        if (string.IsNullOrWhiteSpace(text))
+            return false;
+
+        var command = text.Trim().Split([' ', '@'])[0];
+        return command.Equals("/start", StringComparison.OrdinalIgnoreCase);
+    }
+
+    private bool IsAdmin(long chatId) => options.Value.IsAdminChat(chatId);
+
+    private async Task WithContent(Func<CastleAdminContentService, Task> action, CancellationToken cancellationToken)
+    {
+        using var scope = scopeFactory.CreateScope();
+        var content = scope.ServiceProvider.GetRequiredService<CastleAdminContentService>();
+        await action(content);
+    }
+
+    private async Task SendPublicExcursionsAsync(
+        ITelegramBotClient botClient,
+        long chatId,
+        CastleAdminContentService content,
+        CancellationToken cancellationToken)
+    {
+        var text = await content.BuildExcursionsTextAsync(cancellationToken);
+        await botClient.SendMessage(
+            chatId,
+            text + $"\n\nЗапись: {GetSiteUrl()}",
+            cancellationToken: cancellationToken);
+    }
+
+    private string GetSiteUrl() => SiteSettings.DefaultBaseUrl;
+
+    private async Task WithManager(
+        ITelegramBotClient botClient,
+        long chatId,
+        Func<TelegramEventManager, Task> action,
+        CancellationToken cancellationToken)
+    {
+        await TelegramProcessingIndicator.RunAsync(botClient, chatId, logger, cancellationToken, async () =>
+        {
+            using var scope = scopeFactory.CreateScope();
+            var manager = scope.ServiceProvider.GetRequiredService<TelegramEventManager>();
+            await action(manager);
+        });
+    }
+}

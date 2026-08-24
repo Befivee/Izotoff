@@ -1,0 +1,10 @@
+{
+  "name": "IZOTOFF — официальный сайт",
+  "short_name": "IZOTOFF",
+  "description": "Семейная эко-ферма и виноградник в Калининградской области",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1a1510",
+  "theme_color": "#1a1510",
+  "lang": "ru"
+}

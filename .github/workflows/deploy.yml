@@ -1,0 +1,45 @@
+name: Deploy Izotoff
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 10.0.x
+
+    - name: Publish project
+      run: dotnet publish Izotoff.csproj -c Release -o publish
+
+    - name: Setup SSH
+      uses: webfactory/ssh-agent@v0.9.0
+      with:
+        ssh-private-key: ${{ secrets.SSH_KEY }}
+
+    - name: Add server to known_hosts
+      run: |
+        mkdir -p ~/.ssh
+        ssh-keyscan -H "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts
+
+    - name: Deploy to server
+      env:
+        SSH_USER: ${{ secrets.SSH_USER }}
+        SSH_HOST: ${{ secrets.SSH_HOST }}
+      run: |
+        rsync -avz --delete \
+          --exclude 'izotoff.db' \
+          --exclude 'izotoff.db-*' \
+          --exclude 'App_Data/' \
+          --exclude 'uploads/' \
+          publish/ "${SSH_USER}@${SSH_HOST}:/var/www/izotoff/"
+        ssh "${SSH_USER}@${SSH_HOST}" "systemctl restart izotoff && systemctl is-active izotoff"

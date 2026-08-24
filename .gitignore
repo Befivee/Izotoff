@@ -1,0 +1,20 @@
+bin/
+obj/
+publish/
+publish-clean/
+publish-fix/
+*.db
+*.db-shm
+*.db-wal
+appsettings.Development.json
+.vs/
+*.csproj.user
+node_modules/
+.env
+*.pem
+id_rsa
+id_ed25519
+id_ed25519.pub
+
+# Не хранить медиа вне wwwroot (используйте wwwroot/images/)
+/images/

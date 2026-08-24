@@ -1,0 +1,20 @@
+@model Excursion
+
+<article class="tour-card reveal">
+    <div class="tour-card__image" aria-hidden="true">
+        <span class="tour-card__price">@Model.Price.ToString("0") ₽</span>
+    </div>
+    <div class="tour-card__body">
+        <h3 class="tour-card__title">@Model.Title</h3>
+        <p class="tour-card__desc">@Model.Description</p>
+        <div class="tour-card__meta">
+            <span class="tour-card__duration">@Model.DisplayDuration</span>
+        </div>
+        <button type="button" class="btn btn-primary btn-sm"
+                data-booking-open
+                data-tour-id="@Model.Id"
+                data-tour-name="@Model.Title">
+            Записаться
+        </button>
+    </div>
+</article>

@@ -1,0 +1,57 @@
+@{
+    ViewData["Title"] = "О нас";
+    ViewData["MetaDescription"] = "IZOTOFF: семья Изотовых, сыроварня, первый виноградник Калининградской области, дегустационный зал и экскурсии на эко-ферме.";
+}
+
+<section class="page-hero page-hero--compact" aria-labelledby="page-title">
+    <partial name="_PageHeroPhoto" model="@(new PageHeroPhotoViewModel("page-hero__bg--about"))" />
+    <div class="container-xl page-hero__content reveal">
+        <h1 id="page-title" class="page-hero__title">О нас</h1>
+        <p class="page-hero__lead">Семейная эко-ферма в Зеленоградском районе</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container-xl">
+        <div class="about-split reveal">
+            <div class="about-split__image placeholder-block placeholder-block--about" role="img" aria-label="IZOTOFF"></div>
+            <div class="about-split__text">
+                <h2>Наша история</h2>
+                <p>Мы — семья потомственных калининградцев. В 2020 году, в разгар пандемии, решили воплотить давнюю мечту: начали создавать сыры из местного молока.</p>
+                <p>Постепенно ферма росла — мы приобрели живописный участок в Зеленоградском районе и завели небольшое стадо из пяти коров симментальской породы, чтобы сыр создавался из собственного молока. Затем освоили искусство сидра: яблочный сезон начинается в октябре, как раз когда заканчивается молочный.</p>
+                <p>Кульминацией пути стало решение создать собственный виноградник: в 2025 году мы разбили 5 гектаров земли под лозы, выбрав сорта Пино нуар и Пино гри. На этой же территории построили дегустационный зал с панорамным видом на виноградник.</p>
+            </div>
+        </div>
+
+        <div class="about-features">
+            <article class="about-feature reveal">
+                <h3>Сыроварня</h3>
+                <p>Ремесленные сыры «Изотов-Чиз» из собственного и местного молока — основа нашего гастрономического предложения.</p>
+            </article>
+            <article class="about-feature reveal">
+                <h3>Виноградник</h3>
+                <p>Первый виноградник Калининградской области: Пино нуар, Пино гри, в перспективе — рислинг.</p>
+            </article>
+            <article class="about-feature reveal">
+                <h3>Дегустации и туры</h3>
+                <p>Экскурсии на ферму, винные вечера, пикники, гастрономические программы с сомелье — по записи.</p>
+            </article>
+        </div>
+
+        <header class="section-header reveal">
+            <h2 class="section-header__title">Семья Изотовых</h2>
+            <p class="section-header__lead">Тексты и фото команды — УТОЧНЯЮТСЯ</p>
+        </header>
+
+        <div class="about-split reveal">
+            <div class="about-split__text">
+                <p>Александр Изотов — основатель хозяйства и виноградника. Елизавета Изотова — сыроварня и гастрономические программы.</p>
+                <p>Подробные биографии и фотографии команды будут добавлены на следующем этапе наполнения сайта.</p>
+            </div>
+        </div>
+
+        <div class="section-cta reveal">
+            <button type="button" class="btn btn-primary btn-lg" data-booking-open data-tour-kind="self">Записаться на экскурсию</button>
+        </div>
+    </div>
+</section>

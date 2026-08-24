@@ -1,0 +1,16 @@
+/* Только для режима Live Server — не подключается на боевом сайте */
+.preview-banner {
+  position: fixed;
+  bottom: 0.75rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  margin: 0;
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-family: system-ui, sans-serif;
+  color: #fff;
+  background: rgba(42, 42, 46, 0.82);
+  pointer-events: none;
+}

@@ -1,0 +1,42 @@
+@using Microsoft.Extensions.Options
+@inject IOptions<Izotoff.Options.SiteSettings> SiteOptions
+@{
+    var site = SiteOptions.Value;
+    var pageTitle = ViewData["Title"]?.ToString();
+    var documentTitle = SiteInfo.GetDocumentTitle(pageTitle, ViewData["MetaTitle"]?.ToString());
+    var description = ViewData["MetaDescription"]?.ToString()
+        ?? "IZOTOFF — семейная эко-ферма и первый виноградник Калининградской области. Экскурсии, дегустации, мероприятия. Запись онлайн.";
+    var keywords = ViewData["MetaKeywords"]?.ToString() ?? site.DefaultKeywords;
+    var ogType = ViewData["OgType"]?.ToString() ?? "website";
+    var ogImage = ViewData["OgImage"]?.ToString();
+    var canonical = site.BaseUrl.TrimEnd('/') + Context.Request.Path;
+}
+
+<meta name="google-site-verification" content="DQBXD52Q0ekEkCp2I8GDvjy65-LR51VtNuc1APg-q5U" />
+<meta name="yandex-verification" content="d7ba5edeb2532d5a" />
+
+<meta name="description" content="@description" />
+<meta name="keywords" content="@keywords" />
+<link rel="canonical" href="@canonical" />
+
+<meta property="og:locale" content="ru_RU" />
+<meta property="og:type" content="@ogType" />
+<meta property="og:title" content="@documentTitle" />
+<meta property="og:description" content="@description" />
+<meta property="og:url" content="@canonical" />
+<meta property="og:site_name" content="@SiteInfo.HomePageTitle" />
+@if (!string.IsNullOrWhiteSpace(ogImage))
+{
+<meta property="og:image" content="@(site.BaseUrl.TrimEnd('/') + ogImage)" />
+<meta property="og:image:alt" content="@SiteInfo.CastleName" />
+}
+
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="@documentTitle" />
+<meta name="twitter:description" content="@description" />
+@if (!string.IsNullOrWhiteSpace(ogImage))
+{
+<meta name="twitter:image" content="@(site.BaseUrl.TrimEnd('/') + ogImage)" />
+}
+
+<partial name="_JsonLd" />

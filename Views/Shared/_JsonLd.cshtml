@@ -1,0 +1,57 @@
+@using Microsoft.Extensions.Options
+@using System.Text.Json
+@inject IOptions<Izotoff.Options.SiteSettings> SiteOptions
+@{
+    var site = SiteOptions.Value;
+    var baseUrl = site.BaseUrl.TrimEnd('/');
+    var description = ViewData["MetaDescription"]?.ToString()
+        ?? "IZOTOFF — семейная эко-ферма и первый виноградник Калининградской области. Экскурсии, дегустации, мероприятия. Запись онлайн.";
+
+    var json = $$"""
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "{{baseUrl}}/#website",
+          "url": "{{baseUrl}}",
+          "name": {{JsonSerializer.Serialize(SiteInfo.HomePageTitle)}},
+          "alternateName": ["IZOTOFF", "IZOTOFF CHEESE", "Изотов", "Изотов-Чиз"],
+          "description": {{JsonSerializer.Serialize(description)}},
+          "inLanguage": "ru-RU",
+          "publisher": { "@id": "{{baseUrl}}/#organization" }
+        },
+        {
+          "@type": "Organization",
+          "@id": "{{baseUrl}}/#organization",
+          "name": {{JsonSerializer.Serialize(SiteInfo.OperatorName)}},
+          "alternateName": ["IZOTOFF", "IZOTOFF CHEESE"],
+          "url": "{{baseUrl}}",
+          "telephone": "{{SiteInfo.PhoneTel}}",
+          "sameAs": ["{{SiteInfo.VkUrl}}", "{{SiteInfo.TelegramUrl}}"]
+        },
+        {
+          "@type": "TouristAttraction",
+          "@id": "{{baseUrl}}/#attraction",
+          "name": {{JsonSerializer.Serialize(SiteInfo.CastleName)}},
+          "alternateName": ["IZOTOFF CHEESE", "ферма Изотовых"],
+          "description": {{JsonSerializer.Serialize(SiteInfo.Tagline)}},
+          "url": "{{baseUrl}}",
+          "telephone": "{{SiteInfo.PhoneTel}}",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Зеленоградский район",
+            "addressRegion": "Калининградская область",
+            "addressCountry": "RU"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": {{SiteInfo.Latitude}},
+            "longitude": {{SiteInfo.Longitude}}
+          }
+        }
+      ]
+    }
+    """;
+}
+<script type="application/ld+json">@Html.Raw(json)</script>

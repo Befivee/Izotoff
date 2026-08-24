@@ -1,0 +1,96 @@
+@model BookingCreateViewModel
+
+<div class="booking-modal" id="booking-modal" role="dialog" aria-modal="true" aria-labelledby="booking-title" hidden>
+    <div class="booking-modal__backdrop" data-booking-close></div>
+    <div class="booking-modal__panel">
+        <button type="button" class="booking-modal__close" data-booking-close aria-label="Закрыть">&times;</button>
+
+        <div class="booking-modal__form-wrap" id="booking-form-wrap">
+            <h2 id="booking-title" class="booking-modal__title">Запись на посещение</h2>
+            <p class="booking-modal__subtitle">Оставьте заявку — мы перезвоним для подтверждения</p>
+
+            <form asp-controller="Booking" asp-action="Create" method="post" class="booking-form" id="booking-form" novalidate>
+                @Html.AntiForgeryToken()
+                <div asp-validation-summary="ModelOnly" class="text-danger validation-summary" role="alert"></div>
+
+                <input type="hidden" asp-for="ExcursionId" id="booking-tour-id" />
+                <input type="hidden" asp-for="ExcursionTitle" id="booking-tour-name" />
+                <input type="hidden" asp-for="EventTitle" id="booking-event-title" />
+
+                <div class="booking-event-row" id="booking-event-wrap" hidden>
+                    <button type="button"
+                            class="booking-type-switch__btn booking-type-switch__btn--event"
+                            id="booking-event-btn">
+                        <span class="booking-type-switch__label" id="booking-event-label"></span>
+                    </button>
+                </div>
+
+                <div class="booking-type-switch" role="group" aria-label="Тип посещения">
+                    @foreach (var excursion in ExcursionCatalog.All)
+                    {
+                        <button type="button"
+                                class="booking-type-switch__btn"
+                                data-excursion-kind="@excursion.KindKey"
+                                data-excursion-id="@excursion.Id"
+                                data-excursion-title="@excursion.Title"
+                                data-excursion-guided="@(excursion.RequiresTimeSlot ? "1" : "0")">
+                            <span class="booking-type-switch__label">@excursion.FormLabel</span>
+                            <span class="booking-type-switch__price">@excursion.FormPriceLabel</span>
+                        </button>
+                    }
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="FullName">ФИО</label>
+                    <input asp-for="FullName" id="booking-name" autocomplete="name" placeholder="Как к вам обращаться" />
+                    <span asp-validation-for="FullName" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Phone">Телефон</label>
+                    <input asp-for="Phone" type="tel" id="booking-phone" class="js-phone-input"
+                           autocomplete="tel-national" placeholder="+7 (___) ___-__-__" aria-describedby="booking-phone-hint" />
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label asp-for="VisitDate">Дата визита</label>
+                        <input asp-for="VisitDate" type="date" id="booking-date" />
+                        <span asp-validation-for="VisitDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PersonsCount">Гостей</label>
+                        <input asp-for="PersonsCount" type="number" id="booking-guests" min="1" max="30" />
+                        <span asp-validation-for="PersonsCount" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group" id="booking-time-wrap" hidden>
+                    <label asp-for="VisitTime">Время визита</label>
+                    <select asp-for="VisitTime" id="booking-time" class="booking-form__select">
+                        <option value="">Выберите время</option>
+                        @foreach (var slot in ExcursionCatalog.GuidedTimeSlots)
+                        {
+                            <option value="@slot">@slot</option>
+                        }
+                    </select>
+                    <span asp-validation-for="VisitTime" class="text-danger" data-valmsg-for="VisitTime"></span>
+                </div>
+
+                <partial name="_PersonalDataConsent" model="Model" />
+
+                <button type="submit" class="btn btn-primary btn-block" id="booking-submit">
+                    <span class="btn__label">Отправить заявку</span>
+                    <span class="btn__spinner" aria-hidden="true" hidden></span>
+                </button>
+            </form>
+        </div>
+
+        <div class="booking-success" id="booking-success" hidden>
+            <div class="booking-success__icon" aria-hidden="true">✓</div>
+            <h2 class="booking-success__title">Заявка отправлена</h2>
+            <p class="booking-success__text">Спасибо! Мы свяжемся с вами в ближайшее время для подтверждения записи.</p>
+            <button type="button" class="btn btn-outline" data-booking-close>Закрыть</button>
+        </div>
+    </div>
+</div>

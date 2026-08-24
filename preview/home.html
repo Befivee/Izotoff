@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IZOTOFF — официальный сайт (превью)</title>
+  <link rel="stylesheet" href="/wwwroot/css/fonts.css" />
+  <link rel="stylesheet" href="/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.min.css" />
+  <link rel="stylesheet" href="/wwwroot/css/main.css" />
+  <link rel="stylesheet" href="/preview/preview.css" />
+</head>
+<body class="page-home">
+
+  <p class="preview-banner" aria-hidden="true">Превью Live Server · CSS из wwwroot</p>
+
+  <header class="site-header" id="site-header">
+    <div class="container-xl site-header__inner">
+      <a class="site-logo" href="home.html" aria-label="IZOTOFF — на главную">
+        <span class="site-logo__mark" aria-hidden="true"></span>
+        <span class="site-logo__text">
+          <span class="site-logo__name">IZOTOFF</span>
+          <span class="site-logo__sub">эко-ферма</span>
+        </span>
+      </a>
+      <nav class="site-nav" id="site-nav" aria-label="Основная навигация">
+        <ul class="site-nav__list">
+          <li><a href="home.html#news" class="site-nav__link">Новости</a></li>
+          <li><a href="#" class="site-nav__link">Аренда</a></li>
+          <li><a href="#" class="site-nav__link">Экскурсии</a></li>
+          <li><a href="#" class="site-nav__link">Мероприятия</a></li>
+          <li><a href="#" class="site-nav__link">О нас</a></li>
+          <li><a href="#" class="site-nav__link">Как добраться</a></li>
+          <li><a href="#" class="site-nav__link">Контакты</a></li>
+        </ul>
+      </nav>
+      <div class="site-header__actions">
+        <button type="button" class="btn btn-primary btn-book">Записаться</button>
+      </div>
+      <button type="button" class="burger" id="burger" aria-expanded="false" aria-controls="site-nav" aria-label="Открыть меню">
+        <span class="burger__line"></span>
+        <span class="burger__line"></span>
+        <span class="burger__line"></span>
+      </button>
+    </div>
+    <div class="nav-overlay" id="nav-overlay" hidden></div>
+  </header>
+
+  <main id="main-content">
+
+    <section class="hero" aria-label="IZOTOFF — официальный сайт">
+      <div class="hero__bg" data-parallax></div>
+      <div class="hero__overlay"></div>
+      <div class="hero__content container-xl reveal is-visible">
+        <p class="hero__eyebrow">Калининградская область, Зеленоградский район</p>
+        <h1 class="hero__title">IZOTOFF</h1>
+        <p class="hero__subtitle">Первый виноградник Калининградской области</p>
+        <div class="hero__actions">
+          <button type="button" class="btn btn-primary btn-lg">Записаться на экскурсию</button>
+          <a href="#" class="btn btn-outline btn-lg btn-outline--light">Как добраться</a>
+        </div>
+      </div>
+      <a href="#quick-info" class="hero__scroll" aria-label="Прокрутить вниз"><span></span></a>
+    </section>
+
+    <section class="quick-info" id="quick-info" aria-label="Быстрая информация">
+      <div class="container-xl">
+        <div class="quick-info__grid">
+          <div class="info-card reveal is-visible">
+            <span class="info-card__icon" aria-hidden="true">📍</span>
+            <h3 class="info-card__title">Расположение</h3>
+            <p class="info-card__text">~30 мин от Калининграда</p>
+          </div>
+          <div class="info-card reveal is-visible">
+            <span class="info-card__icon" aria-hidden="true">⏰</span>
+            <h3 class="info-card__title">Время работы</h3>
+            <p class="info-card__text">ПО ЗАПИСИ (расписание уточняется)</p>
+          </div>
+          <div class="info-card reveal is-visible">
+            <span class="info-card__icon" aria-hidden="true">💰</span>
+            <h3 class="info-card__title">Стоимость</h3>
+            <p class="info-card__text">от 500 ₽</p>
+          </div>
+          <div class="info-card reveal is-visible">
+            <span class="info-card__icon" aria-hidden="true">🚗</span>
+            <h3 class="info-card__title">На автомобиле</h3>
+            <p class="info-card__text">Эко-ферма в Зеленоградском районе</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--news" id="news" aria-labelledby="news-title">
+      <div class="container-xl">
+        <header class="section-header section-header--row reveal is-visible">
+          <div>
+            <h2 id="news-title" class="section-header__title">Новости</h2>
+            <p class="section-header__lead">События фермы, виноградника и сыроварни IZOTOFF</p>
+          </div>
+          <a href="#" class="link-arrow">Все новости</a>
+        </header>
+
+        <div class="news-showcase reveal is-visible" id="home-news-showcase">
+          <div class="news-showcase__articles">
+            <article class="news-showcase__article is-active" data-news-article data-article-index="0">
+              <div class="news-showcase__content">
+                <time class="news-showcase__date" datetime="2025-04-12">12 апреля 2025 г.</time>
+                <h3 class="news-showcase__heading">Заложен первый виноградник Калининградской области</h3>
+                <p class="news-showcase__summary">На территории эко-фермы IZOTOFF началась закладка лоз на площади 5 гектаров. Выбраны сорта Пино нуар и Пино гри — они станут основой будущих вин программы хозяйства.</p>
+                <a href="#" class="btn btn-outline btn-sm news-showcase__more">Читать далее</a>
+              </div>
+              <div class="news-showcase__media">
+                <div class="news-gallery" data-news-gallery>
+                  <div class="news-gallery__viewport">
+                    <div class="news-gallery__track" data-news-gallery-track>
+                      <div class="news-gallery__slide news-gallery__slide--tone-forest is-active" data-news-gallery-slide role="img" aria-label="Иллюстрация 1"></div>
+                      <div class="news-gallery__slide news-gallery__slide--tone-vine" data-news-gallery-slide role="img" aria-label="Иллюстрация 2"></div>
+                      <div class="news-gallery__slide news-gallery__slide--tone-dusk" data-news-gallery-slide role="img" aria-label="Иллюстрация 3"></div>
+                    </div>
+                  </div>
+                  <div class="news-gallery__controls">
+                    <button type="button" class="news-gallery__btn news-gallery__btn--prev" data-news-gallery-prev aria-label="Предыдущее фото">‹</button>
+                    <div class="news-gallery__dots" data-news-gallery-dots aria-hidden="true">
+                      <span class="news-gallery__dot is-active" data-news-gallery-dot></span>
+                      <span class="news-gallery__dot" data-news-gallery-dot></span>
+                      <span class="news-gallery__dot" data-news-gallery-dot></span>
+                    </div>
+                    <button type="button" class="news-gallery__btn news-gallery__btn--next" data-news-gallery-next aria-label="Следующее фото">›</button>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article class="news-showcase__article" data-news-article data-article-index="1" hidden>
+              <div class="news-showcase__content">
+                <time class="news-showcase__date" datetime="2025-08-03">3 августа 2025 г.</time>
+                <h3 class="news-showcase__heading">Открыт дегустационный зал с видом на лозы</h3>
+                <p class="news-showcase__summary">Гости фермы смогут пробовать сыры «Изотов-Чиз» и сезонные напитки в новом зале с панорамным остеклением.</p>
+                <a href="#" class="btn btn-outline btn-sm news-showcase__more">Читать далее</a>
+              </div>
+              <div class="news-showcase__media">
+                <div class="news-gallery" data-news-gallery>
+                  <div class="news-gallery__viewport">
+                    <div class="news-gallery__track">
+                      <div class="news-gallery__slide news-gallery__slide--tone-wine is-active" data-news-gallery-slide role="img"></div>
+                      <div class="news-gallery__slide news-gallery__slide--tone-sage" data-news-gallery-slide role="img"></div>
+                    </div>
+                  </div>
+                  <div class="news-gallery__controls">
+                    <button type="button" class="news-gallery__btn news-gallery__btn--prev" data-news-gallery-prev aria-label="Предыдущее фото">‹</button>
+                    <div class="news-gallery__dots" data-news-gallery-dots aria-hidden="true">
+                      <span class="news-gallery__dot is-active" data-news-gallery-dot></span>
+                      <span class="news-gallery__dot" data-news-gallery-dot></span>
+                    </div>
+                    <button type="button" class="news-gallery__btn news-gallery__btn--next" data-news-gallery-next aria-label="Следующее фото">›</button>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article class="news-showcase__article" data-news-article data-article-index="2" hidden>
+              <div class="news-showcase__content">
+                <time class="news-showcase__date" datetime="2025-10-18">18 октября 2025 г.</time>
+                <h3 class="news-showcase__heading">Сезон яблочного сидра стартовал на ферме</h3>
+                <p class="news-showcase__summary">Осенняя ферментация — продолжение семейной истории IZOTOFF: после молочного сезона команда переключается на яблочный урожай.</p>
+                <a href="#" class="btn btn-outline btn-sm news-showcase__more">Читать далее</a>
+              </div>
+              <div class="news-showcase__media">
+                <div class="news-gallery" data-news-gallery>
+                  <div class="news-gallery__viewport">
+                    <div class="news-gallery__track">
+                      <div class="news-gallery__slide news-gallery__slide--tone-amber is-active" data-news-gallery-slide role="img"></div>
+                      <div class="news-gallery__slide news-gallery__slide--tone-forest" data-news-gallery-slide role="img"></div>
+                      <div class="news-gallery__slide news-gallery__slide--tone-clay" data-news-gallery-slide role="img"></div>
+                    </div>
+                  </div>
+                  <div class="news-gallery__controls">
+                    <button type="button" class="news-gallery__btn news-gallery__btn--prev" data-news-gallery-prev aria-label="Предыдущее фото">‹</button>
+                    <div class="news-gallery__dots" data-news-gallery-dots aria-hidden="true">
+                      <span class="news-gallery__dot is-active" data-news-gallery-dot></span>
+                      <span class="news-gallery__dot" data-news-gallery-dot></span>
+                      <span class="news-gallery__dot" data-news-gallery-dot></span>
+                    </div>
+                    <button type="button" class="news-gallery__btn news-gallery__btn--next" data-news-gallery-next aria-label="Следующее фото">›</button>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <div class="news-showcase__nav">
+            <button type="button" class="news-showcase__nav-btn" data-news-prev aria-label="Предыдущая новость">‹</button>
+            <div class="news-showcase__dots" data-news-dots aria-hidden="true">
+              <button type="button" class="news-showcase__dot is-active" data-news-dot="0" aria-label="Новость 1"></button>
+              <button type="button" class="news-showcase__dot" data-news-dot="1" aria-label="Новость 2"></button>
+              <button type="button" class="news-showcase__dot" data-news-dot="2" aria-label="Новость 3"></button>
+            </div>
+            <button type="button" class="news-showcase__nav-btn" data-news-next aria-label="Следующая новость">›</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--why" aria-labelledby="why-title">
+      <div class="container-xl">
+        <header class="section-header reveal is-visible">
+          <h2 id="why-title" class="section-header__title">Почему стоит посетить</h2>
+        </header>
+        <div class="why-grid">
+          <article class="why-card reveal is-visible">
+            <span class="why-card__num">01</span>
+            <h3>Семейная ферма</h3>
+            <p>С 2020 года мы создаём сыры из местного молока — сначала из регионального, затем из собственного стада коров симментальской породы.</p>
+          </article>
+          <article class="why-card reveal is-visible">
+            <span class="why-card__num">02</span>
+            <h3>Первый виноградник области</h3>
+            <p>В 2025 году заложили 5 гектаров под лозы — сорта Пино нуар и Пино гри.</p>
+          </article>
+          <article class="why-card reveal is-visible">
+            <span class="why-card__num">03</span>
+            <h3>Дегустации и туры</h3>
+            <p>Экскурсии на ферму, винные и гастрономические программы, пикники — по записи.</p>
+          </article>
+          <article class="why-card reveal is-visible">
+            <span class="why-card__num">04</span>
+            <h3>Вкус региона</h3>
+            <p>От нежного фермерского сыра до игристых напитков и будущих вин.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--tours" aria-labelledby="tours-title">
+      <div class="container-xl">
+        <header class="section-header section-header--row reveal is-visible">
+          <div>
+            <h2 id="tours-title" class="section-header__title">Экскурсии</h2>
+            <p class="section-header__lead">Выберите программу и запишитесь онлайн</p>
+          </div>
+          <a href="#" class="link-arrow">Подробнее</a>
+        </header>
+        <div class="excursion-types excursion-types--compact">
+          <article class="excursion-type-block reveal is-visible">
+            <div class="excursion-type-block__media excursion-type-block__media--guided">
+              <span class="excursion-type-block__badge">от 500 ₽</span>
+            </div>
+            <div class="excursion-type-block__body">
+              <h2 class="excursion-type-block__title">Экскурсия на ферму IZOTOFF</h2>
+              <p class="excursion-type-block__desc">Знакомство с семейной фермой: животные, сыроварня, история хозяйства.</p>
+              <button type="button" class="btn btn-primary btn-lg">Записаться</button>
+            </div>
+          </article>
+          <article class="excursion-type-block reveal is-visible">
+            <div class="excursion-type-block__media excursion-type-block__media--vineyard">
+              <span class="excursion-type-block__badge">от 1000 ₽</span>
+            </div>
+            <div class="excursion-type-block__body">
+              <h2 class="excursion-type-block__title">Гастрономическое путешествие на виноградник</h2>
+              <p class="excursion-type-block__desc">Прогулка среди рядов молодого виноградника на площади 5 гектаров.</p>
+              <button type="button" class="btn btn-primary btn-lg">Записаться</button>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container-xl">
+      <div class="site-footer__grid">
+        <div class="site-footer__brand">
+          <a class="site-logo site-logo--footer" href="home.html">
+            <span class="site-logo__mark" aria-hidden="true"></span>
+            <span class="site-logo__text">
+              <span class="site-logo__name">IZOTOFF</span>
+              <span class="site-logo__sub">сыроварня и виноградник</span>
+            </span>
+          </a>
+          <p class="site-footer__tagline">Калининградская область, Зеленоградский район</p>
+        </div>
+      </div>
+      <div class="site-footer__bottom">
+        <p>&copy; IZOTOFF, 2026. Превью Live Server.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/wwwroot/js/main.js"></script>
+</body>
+</html>
