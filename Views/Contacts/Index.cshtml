@@ -6,7 +6,7 @@
     <partial name="_PageHeroPhoto" model="@(new PageHeroPhotoViewModel("page-hero__bg--contacts"))" />
     <div class="container-xl page-hero__content reveal">
         <h1 id="page-title" class="page-hero__title">Контакты</h1>
-        <p class="page-hero__lead">Свяжитесь с нами или запишитесь на экскурсию</p>
+        <p class="page-hero__lead">Свяжитесь с нами, постройте маршрут или запишитесь на экскурсию</p>
     </div>
 </section>
 
@@ -39,6 +39,53 @@
             <div class="contacts-map reveal">
                 <partial name="_YandexMap" model="@("lg")" />
                 <a href="@SiteInfo.YandexMapsUrl" target="_blank" rel="noopener" class="link-arrow">Открыть в Яндекс.Картах</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section section--alt" id="kak-dobratsya" aria-labelledby="directions-title">
+    <div class="container-xl">
+        <header class="section-header reveal">
+            <h2 id="directions-title" class="section-header__title">Как добраться</h2>
+            <p class="section-header__lead">@SiteInfo.DistanceFromKg · @SiteInfo.TravelTime</p>
+        </header>
+
+        <div class="directions-layout directions-layout--contacts">
+            <div class="directions-layout__info">
+                <article class="route-card reveal">
+                    <span class="route-card__icon" aria-hidden="true">🚗</span>
+                    <div>
+                        <h2>На автомобиле</h2>
+                        <p>Эко-ферма IZOTOFF находится примерно в получасе езды от Калининграда, в Зеленоградском районе. Точный адрес и указатели — УТОЧНЯЮТСЯ.</p>
+                        <p class="route-card__meta">@SiteInfo.DistanceFromKg · парковка на территории (уточняется)</p>
+                    </div>
+                </article>
+
+                <article class="route-card reveal">
+                    <span class="route-card__icon" aria-hidden="true">📍</span>
+                    <div>
+                        <h2>Адрес</h2>
+                        <p>@SiteInfo.Address</p>
+                    </div>
+                </article>
+
+                <article class="route-card reveal">
+                    <span class="route-card__icon" aria-hidden="true">⏰</span>
+                    <div>
+                        <h2>Посещение</h2>
+                        <p>Экскурсии и мероприятия — по предварительной записи. @SiteInfo.WorkingHours</p>
+                    </div>
+                </article>
+            </div>
+        </div>
+
+        <div class="directions-entrance reveal">
+            <div class="directions-entrance__text">
+                <h2>Въезд на ферму</h2>
+                <p>Ориентиры для гостей и схема въезда будут добавлены после уточнения адреса у заказчика. Приезжайте за 10–15 минут до начала программы.</p>
+                <p class="directions-entrance__hint">Даты, время и количество гостей можно уточнить в комментарии к заявке — мы перезвоним и всё согласуем.</p>
+                <a href="@SiteInfo.YandexMapsUrl" target="_blank" rel="noopener" class="btn btn-primary">Открыть маршрут</a>
             </div>
         </div>
     </div>

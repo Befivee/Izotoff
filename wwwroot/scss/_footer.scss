@@ -172,6 +172,13 @@
   @include respond-to(lg) {
     grid-template-columns: 1.1fr 1fr;
   }
+
+  &--contacts {
+    @include respond-to(lg) {
+      grid-template-columns: 1fr;
+      max-width: 720px;
+    }
+  }
 }
 
 .route-card {

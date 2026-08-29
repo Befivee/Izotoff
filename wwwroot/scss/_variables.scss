@@ -1,11 +1,13 @@
-// Colors
-$color-bg: #f8f6f3;
-$color-bg-alt: #f0ebe4;
+// Colors — виноградник: тёмный зелёный как основной акцент
+$color-bg: #f3f5f0;
+$color-bg-alt: #e6ebe3;
 $color-surface: #ffffff;
-$color-burgundy: #5c1f2e;
-$color-burgundy-dark: #3d1420;
-$color-green: #2d4a3e;
-$color-green-dark: #1e3329;
+$color-primary: #1c3b2e;
+$color-primary-dark: #10241c;
+$color-burgundy: $color-primary;
+$color-burgundy-dark: $color-primary-dark;
+$color-green: #2a4a3a;
+$color-green-dark: #163027;
 $color-graphite: #2a2a2e;
 $color-graphite-muted: #5c5c62;
 $color-text: $color-graphite;

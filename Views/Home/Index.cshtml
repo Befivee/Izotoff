@@ -9,7 +9,7 @@
         <p class="hero__subtitle">@SiteInfo.Tagline</p>
         <div class="hero__actions">
             <button type="button" class="btn btn-primary btn-lg" data-booking-open data-tour-kind="self">Записаться на экскурсию</button>
-            <a asp-controller="Directions" asp-action="Index" class="btn btn-outline btn-lg btn-outline--light">Как добраться</a>
+            <a asp-controller="Contacts" asp-action="Index" asp-fragment="kak-dobratsya" class="btn btn-outline btn-lg btn-outline--light">Как добраться</a>
         </div>
     </div>
     <a href="#quick-info" class="hero__scroll" aria-label="Прокрутить вниз">
@@ -131,7 +131,7 @@
                 </ul>
                 <div class="directions-preview__actions">
                     <a href="@SiteInfo.YandexMapsUrl" target="_blank" rel="noopener" class="btn btn-primary">Построить маршрут</a>
-                    <a asp-controller="Directions" asp-action="Index" class="btn btn-outline">Подробнее</a>
+                    <a asp-controller="Contacts" asp-action="Index" asp-fragment="kak-dobratsya" class="btn btn-outline">Подробнее</a>
                 </div>
             </div>
             <partial name="_YandexMap" model="@("lg")" />

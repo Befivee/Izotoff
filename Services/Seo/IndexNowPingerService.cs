@@ -26,7 +26,6 @@ public class IndexNowPingerService(
         "/Excursion",
         "/Event",
         "/About",
-        "/Directions",
         "/Contacts"
     ];
 

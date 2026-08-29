@@ -15,7 +15,7 @@ body {
   font-size: 1rem;
   line-height: 1.6;
   color: #2a2a2e;
-  background: #f8f6f3;
+  background: #f3f5f0;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -26,12 +26,12 @@ img {
 }
 
 a {
-  color: #5c1f2e;
+  color: #1c3b2e;
   text-decoration: none;
   transition: color 0.2s cubic-bezier(0.22, 1, 0.36, 1);
 }
 a:hover {
-  color: #3d1420;
+  color: #10241c;
 }
 
 h1, h2, h3, h4 {
@@ -148,11 +148,11 @@ main {
   color: #2a2a2e;
 }
 .site-logo:hover {
-  color: #5c1f2e;
+  color: #1c3b2e;
 }
 .site-logo__icon {
   font-size: 1.5rem;
-  color: #5c1f2e;
+  color: #1c3b2e;
   line-height: 1;
 }
 .site-logo__mark {
@@ -160,7 +160,7 @@ main {
   width: 48px;
   height: 48px;
   border-radius: 8px;
-  background-color: #5c1f2e;
+  background-color: #1c3b2e;
   flex-shrink: 0;
 }
 .site-logo__img {
@@ -228,10 +228,10 @@ main {
     font-size: 1.1875rem;
   }
   .site-nav .site-nav__link:hover {
-    color: #5c1f2e;
+    color: #1c3b2e;
   }
   .site-nav .site-nav__link::after {
-    background: #5c1f2e;
+    background: #1c3b2e;
   }
 
   .site-nav__social {
@@ -289,11 +289,11 @@ main {
   left: 0;
   width: 0;
   height: 2px;
-  background: #5c1f2e;
+  background: #1c3b2e;
   transition: width 0.2s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .site-nav__link:hover {
-  color: #5c1f2e;
+  color: #1c3b2e;
 }
 .site-nav__link:hover::after {
   width: 100%;
@@ -578,7 +578,7 @@ main {
 }
 .page-hero__bg--events,
 .page-hero__bg--excursions {
-  background-color: #5c1f2e;
+  background-color: #1c3b2e;
 }
 .page-hero__bg--about {
   background-color: #3d5a4a;
@@ -665,14 +665,14 @@ main {
 
 .history-step {
   padding: 2.5rem;
-  border-left: 3px solid #5c1f2e;
-  background: #f8f6f3;
+  border-left: 3px solid #1c3b2e;
+  background: #f3f5f0;
 }
 .history-step__year {
   display: block;
   font-family: "Cormorant Garamond", Georgia, serif;
   font-size: 1.75rem;
-  color: #5c1f2e;
+  color: #1c3b2e;
   margin-bottom: 1rem;
 }
 .history-step h3 {
@@ -688,7 +688,7 @@ main {
   text-align: center;
   padding: 4rem;
   border-radius: 20px;
-  background: linear-gradient(135deg, #5c1f2e 0%, #1e3329 100%);
+  background: linear-gradient(135deg, #1c3b2e 0%, #1e3329 100%);
   color: #fff;
 }
 .cta-banner h2 {
@@ -701,12 +701,12 @@ main {
 }
 .cta-banner .btn-primary {
   background: #fff;
-  color: #5c1f2e;
+  color: #1c3b2e;
   border-color: #fff;
 }
 .cta-banner .btn-primary:hover {
-  background: #f8f6f3;
-  border-color: #f8f6f3;
+  background: #f3f5f0;
+  border-color: #f3f5f0;
 }
 
 .section-cta {
@@ -732,23 +732,23 @@ main {
   white-space: nowrap;
 }
 .btn-primary {
-  background: #5c1f2e;
+  background: #1c3b2e;
   color: #fff;
-  border-color: #5c1f2e;
+  border-color: #1c3b2e;
 }
 .btn-primary:hover {
-  background: #3d1420;
-  border-color: #3d1420;
+  background: #10241c;
+  border-color: #10241c;
   color: #fff;
   transform: translateY(-1px);
 }
 .btn-outline {
   background: transparent;
-  color: #5c1f2e;
-  border-color: #5c1f2e;
+  color: #1c3b2e;
+  border-color: #1c3b2e;
 }
 .btn-outline:hover {
-  background: #5c1f2e;
+  background: #1c3b2e;
   color: #fff;
 }
 .btn-outline--light {
@@ -757,7 +757,7 @@ main {
 }
 .btn-outline--light:hover {
   background: #fff;
-  color: #5c1f2e;
+  color: #1c3b2e;
 }
 .btn-lg {
   padding: 1rem 2rem;
@@ -776,7 +776,7 @@ main {
   align-items: center;
   gap: 0.35rem;
   font-weight: 500;
-  color: #5c1f2e;
+  color: #1c3b2e;
 }
 .link-arrow::after {
   content: "→";
@@ -801,7 +801,7 @@ main {
   background: #ffffff;
 }
 .section--events {
-  background: #f0ebe4;
+  background: #e6ebe3;
 }
 .section--history {
   background: #ffffff;
@@ -945,7 +945,7 @@ main {
 .why-card {
   padding: 2.5rem 1.5rem;
   border-radius: 12px;
-  background: #f8f6f3;
+  background: #f3f5f0;
   border: 1px solid rgba(42, 42, 46, 0.1);
   transition: border-color 0.2s cubic-bezier(0.22, 1, 0.36, 1), background 0.2s cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -1005,7 +1005,7 @@ main {
   border-radius: 6px;
   font-weight: 600;
   font-size: 0.875rem;
-  color: #5c1f2e;
+  color: #1c3b2e;
 }
 .tour-card__body {
   display: flex;
@@ -1074,7 +1074,7 @@ main {
   background-color: #2d4a3e;
 }
 .excursion-type-block__media--vineyard {
-  background-color: #5c1f2e;
+  background-color: #1c3b2e;
 }
 .excursion-type-block__badge {
   position: absolute;
@@ -1087,7 +1087,7 @@ main {
   border-radius: 999px;
   font-weight: 700;
   font-size: 0.9375rem;
-  color: #5c1f2e;
+  color: #1c3b2e;
 }
 .excursion-type-block__body {
   display: flex;
@@ -1177,7 +1177,7 @@ main {
 .excursion-pricing__card-title {
   margin: 0 0 1rem;
   font-size: 1.125rem;
-  color: #5c1f2e;
+  color: #1c3b2e;
 }
 
 .excursion-pricing__list {
@@ -1237,7 +1237,7 @@ main {
 }
 .event-card__image {
   height: 220px;
-  background-color: #5c1f2e;
+  background-color: #1c3b2e;
 }
 .event-card__body {
   display: flex;
@@ -1410,7 +1410,7 @@ main {
 .map-placeholder__pin {
   width: 24px;
   height: 24px;
-  background: #5c1f2e;
+  background: #1c3b2e;
   border-radius: 50% 50% 50% 0;
   transform: rotate(-45deg);
   margin-bottom: 1rem;
@@ -1465,8 +1465,8 @@ main {
   transition: all 0.2s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .filter-chip:hover, .filter-chip.is-active {
-  background: #5c1f2e;
-  border-color: #5c1f2e;
+  background: #1c3b2e;
+  border-color: #1c3b2e;
   color: #fff;
 }
 
@@ -1487,12 +1487,12 @@ main {
   border-radius: 6px;
   font-family: "DM Sans", system-ui, sans-serif;
   font-size: 1rem;
-  background: #f8f6f3;
+  background: #f3f5f0;
   transition: border-color 0.2s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.2s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .form-group input:focus {
   outline: none;
-  border-color: #5c1f2e;
+  border-color: #1c3b2e;
   box-shadow: 0 0 0 3px rgba(92, 31, 46, 0.12);
 }
 
@@ -1734,6 +1734,10 @@ main {
   .directions-layout {
     grid-template-columns: 1.1fr 1fr;
   }
+  .directions-layout--contacts {
+    grid-template-columns: 1fr;
+    max-width: 720px;
+  }
 }
 
 .route-card {
@@ -1802,7 +1806,7 @@ main {
 
 .route-steps {
   padding: 2.5rem;
-  background: #f0ebe4;
+  background: #e6ebe3;
   border-radius: 12px;
 }
 .route-steps h3 {
@@ -1853,7 +1857,7 @@ main {
   text-decoration: none;
 }
 .contact-block__value:hover {
-  color: #5c1f2e;
+  color: #1c3b2e;
 }
 
 .content-narrow {
@@ -1924,7 +1928,7 @@ main {
   width: 36px;
   height: 36px;
   border: none;
-  background: #f8f6f3;
+  background: #f3f5f0;
   border-radius: 50%;
   font-size: 1.5rem;
   line-height: 1;
@@ -1933,7 +1937,7 @@ main {
   transition: background 0.2s cubic-bezier(0.22, 1, 0.36, 1), color 0.2s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .booking-modal__close:hover {
-  background: #5c1f2e;
+  background: #1c3b2e;
   color: #fff;
 }
 .booking-modal__title {
@@ -2016,7 +2020,7 @@ main {
   border-radius: 6px;
   font-family: "DM Sans", system-ui, sans-serif;
   font-size: 1rem;
-  background-color: #f8f6f3;
+  background-color: #f3f5f0;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%235c5c62' d='M1.41 0L6 4.58 10.59 0 12 1.41l-6 6-6-6z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 1rem center;
@@ -2030,7 +2034,7 @@ main {
 
 .booking-form__select:focus {
   outline: none;
-  border-color: #5c1f2e;
+  border-color: #1c3b2e;
   box-shadow: 0 0 0 3px rgba(92, 31, 46, 0.12);
 }
 
@@ -2323,7 +2327,7 @@ main {
 }
 
 .news-gallery__slide--tone-wine {
-  background-color: #5c1f2e;
+  background-color: #1c3b2e;
 }
 
 .news-gallery__slide--tone-sage {
@@ -2387,7 +2391,7 @@ main {
 
 .news-gallery__dot.is-active,
 .news-showcase__dot.is-active {
-  background: #5c1f2e;
+  background: #1c3b2e;
   transform: scale(1.15);
 }
 
