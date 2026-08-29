@@ -21,6 +21,19 @@ public partial class TelegramBotOptions
 
     public string SecondAdminChatId { get; set; } = string.Empty;
 
+    /// <summary>SOCKS/HTTP proxy URL, same as Waldau when Telegram is blocked from the VPS.</summary>
+    public string ProxyUrl { get; set; } = string.Empty;
+
+    public bool TryGetProxyUri(out Uri? proxyUri)
+    {
+        proxyUri = null;
+        var raw = ProxyUrl?.Trim();
+        if (string.IsNullOrWhiteSpace(raw) || IsPlaceholder(raw))
+            return false;
+
+        return Uri.TryCreate(raw, UriKind.Absolute, out proxyUri);
+    }
+
     public bool HasValidBotToken =>
         !string.IsNullOrWhiteSpace(BotToken) &&
         !IsPlaceholder(BotToken) &&

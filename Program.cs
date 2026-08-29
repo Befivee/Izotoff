@@ -1,3 +1,4 @@
+using System.Net;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
@@ -74,13 +75,15 @@ if (telegramOptions.IsConfigured)
         {
             client.Timeout = TimeSpan.FromSeconds(90);
         })
+        .ConfigurePrimaryHttpMessageHandler(() => CreateTelegramHttpHandler(telegramOptions))
         .AddTypedClient<ITelegramBotClient>((httpClient, _) =>
             new TelegramBotClient(clientOptions, httpClient));
 
     builder.Services.AddHttpClient("telegram_notifications", client =>
         {
             client.Timeout = TimeSpan.FromSeconds(60);
-        });
+        })
+        .ConfigurePrimaryHttpMessageHandler(() => CreateTelegramHttpHandler(telegramOptions));
 
     builder.Services.AddSingleton<ITelegramNotificationService>(sp =>
     {
@@ -275,5 +278,17 @@ static string ResolveSqliteConnectionString(IConfiguration configuration, IWebHo
 
     var absolutePath = Path.Combine(environment.ContentRootPath, dataSource);
     return $"Data Source={absolutePath}";
+}
+
+static HttpMessageHandler CreateTelegramHttpHandler(TelegramBotOptions telegram)
+{
+    var handler = new HttpClientHandler();
+    if (telegram.TryGetProxyUri(out var proxyUri) && proxyUri is not null)
+    {
+        handler.Proxy = new WebProxy(proxyUri);
+        handler.UseProxy = true;
+    }
+
+    return handler;
 }
 
