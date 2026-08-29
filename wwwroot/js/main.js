@@ -647,17 +647,8 @@
     );
   }
 
-  // Home news showcase: article carousel + per-article image gallery
-  (function initNewsShowcase() {
-    const root = document.getElementById('home-news-showcase');
-    if (!root) return;
-
-    const articles = [...root.querySelectorAll('[data-news-article]')];
-    if (!articles.length) return;
-
-    let articleIndex = articles.findIndex((el) => el.classList.contains('is-active'));
-    if (articleIndex < 0) articleIndex = 0;
-
+  // News image galleries (home + /News)
+  (function initNewsGalleries() {
     function setGallerySlide(gallery, index) {
       const slides = [...gallery.querySelectorAll('[data-news-gallery-slide]')];
       if (!slides.length) return;
@@ -671,7 +662,7 @@
       gallery.dataset.galleryIndex = String(safeIndex);
     }
 
-    function initGallery(gallery) {
+    document.querySelectorAll('[data-news-gallery]').forEach((gallery) => {
       const slides = gallery.querySelectorAll('[data-news-gallery-slide]');
       if (slides.length <= 1) return;
 
@@ -685,37 +676,6 @@
       gallery.querySelector('[data-news-gallery-next]')?.addEventListener('click', () => {
         const current = Number(gallery.dataset.galleryIndex || '0');
         setGallerySlide(gallery, current + 1);
-      });
-    }
-
-    articles.forEach((article) => {
-      const gallery = article.querySelector('[data-news-gallery]');
-      if (gallery) initGallery(gallery);
-    });
-
-    function showArticle(index) {
-      if (!articles.length) return;
-
-      articleIndex = ((index % articles.length) + articles.length) % articles.length;
-
-      articles.forEach((article, i) => {
-        const active = i === articleIndex;
-        article.classList.toggle('is-active', active);
-        article.hidden = !active;
-      });
-
-      root.querySelectorAll('[data-news-dot]').forEach((dot) => {
-        dot.classList.toggle('is-active', Number(dot.getAttribute('data-news-dot')) === articleIndex);
-      });
-    }
-
-    root.querySelector('[data-news-prev]')?.addEventListener('click', () => showArticle(articleIndex - 1));
-    root.querySelector('[data-news-next]')?.addEventListener('click', () => showArticle(articleIndex + 1));
-
-    root.querySelectorAll('[data-news-dot]').forEach((dot) => {
-      dot.addEventListener('click', () => {
-        const index = Number(dot.getAttribute('data-news-dot'));
-        if (!Number.isNaN(index)) showArticle(index);
       });
     });
   })();

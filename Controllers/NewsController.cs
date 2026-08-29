@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Izotoff.Models;
 
 namespace Izotoff.Controllers;
 
@@ -8,6 +9,6 @@ public class NewsController : Controller
     {
         ViewData["MetaDescription"] = "Новости IZOTOFF — семейная эко-ферма и виноградник.";
         ViewData["MetaKeywords"] = "IZOTOFF, новости, ферма, виноградник";
-        return View();
+        return View(HomeNewsCatalog.Featured);
     }
 }

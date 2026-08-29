@@ -1,0 +1,60 @@
+@model IReadOnlyList<HomeNewsItem>
+@using System.Globalization
+
+<div class="news-showcase__articles">
+    @{
+        var culture = new CultureInfo("ru-RU");
+    }
+    @for (var i = 0; i < Model.Count; i++)
+    {
+        var item = Model[i];
+        <article class="news-showcase__article" data-news-article>
+            <div class="news-showcase__content">
+                <time class="news-showcase__date" datetime="@item.PublishedAt.ToString("yyyy-MM-dd")">
+                    @item.PublishedAt.ToString("d MMMM yyyy", culture)
+                </time>
+                <h3 class="news-showcase__heading">@item.Title</h3>
+                <p class="news-showcase__summary">@item.Summary</p>
+            </div>
+
+            <div class="news-showcase__media">
+                <div class="news-gallery" data-news-gallery>
+                    <div class="news-gallery__viewport">
+                        <div class="news-gallery__track" data-news-gallery-track>
+                            @for (var j = 0; j < item.ImageTones.Count; j++)
+                            {
+                                <div class="news-gallery__slide news-gallery__slide--@item.ImageTones[j]@(j == 0 ? " is-active" : "")"
+                                     data-news-gallery-slide
+                                     role="img"
+                                     aria-label="Иллюстрация @(j + 1) — @item.Title"></div>
+                            }
+                        </div>
+                    </div>
+                    @if (item.ImageTones.Count > 1)
+                    {
+                        <div class="news-gallery__controls">
+                            <button type="button"
+                                    class="news-gallery__btn news-gallery__btn--prev"
+                                    data-news-gallery-prev
+                                    aria-label="Предыдущее фото">
+                                ‹
+                            </button>
+                            <div class="news-gallery__dots" data-news-gallery-dots aria-hidden="true">
+                                @for (var j = 0; j < item.ImageTones.Count; j++)
+                                {
+                                    <span class="news-gallery__dot@(j == 0 ? " is-active" : "")" data-news-gallery-dot></span>
+                                }
+                            </div>
+                            <button type="button"
+                                    class="news-gallery__btn news-gallery__btn--next"
+                                    data-news-gallery-next
+                                    aria-label="Следующее фото">
+                                ›
+                            </button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </article>
+    }
+</div>

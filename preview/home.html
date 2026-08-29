@@ -90,22 +90,18 @@
 
     <section class="section section--news" id="news" aria-labelledby="news-title">
       <div class="container-xl">
-        <header class="section-header section-header--row reveal is-visible">
-          <div>
-            <h2 id="news-title" class="section-header__title">Новости</h2>
-            <p class="section-header__lead">События фермы, виноградника и сыроварни IZOTOFF</p>
-          </div>
-          <a href="#" class="link-arrow">Все новости</a>
+        <header class="section-header reveal is-visible">
+          <h2 id="news-title" class="section-header__title">Новости</h2>
+          <p class="section-header__lead">События фермы, виноградника и сыроварни IZOTOFF</p>
         </header>
 
-        <div class="news-showcase reveal is-visible" id="home-news-showcase">
+        <div class="news-showcase reveal is-visible">
           <div class="news-showcase__articles">
-            <article class="news-showcase__article is-active" data-news-article data-article-index="0">
+            <article class="news-showcase__article" data-news-article>
               <div class="news-showcase__content">
                 <time class="news-showcase__date" datetime="2025-04-12">12 апреля 2025 г.</time>
                 <h3 class="news-showcase__heading">Заложен первый виноградник Калининградской области</h3>
                 <p class="news-showcase__summary">На территории эко-фермы IZOTOFF началась закладка лоз на площади 5 гектаров. Выбраны сорта Пино нуар и Пино гри — они станут основой будущих вин программы хозяйства.</p>
-                <a href="#" class="btn btn-outline btn-sm news-showcase__more">Читать далее</a>
               </div>
               <div class="news-showcase__media">
                 <div class="news-gallery" data-news-gallery>
@@ -129,12 +125,11 @@
               </div>
             </article>
 
-            <article class="news-showcase__article" data-news-article data-article-index="1" hidden>
+            <article class="news-showcase__article" data-news-article>
               <div class="news-showcase__content">
                 <time class="news-showcase__date" datetime="2025-08-03">3 августа 2025 г.</time>
                 <h3 class="news-showcase__heading">Открыт дегустационный зал с видом на лозы</h3>
                 <p class="news-showcase__summary">Гости фермы смогут пробовать сыры «Изотов-Чиз» и сезонные напитки в новом зале с панорамным остеклением.</p>
-                <a href="#" class="btn btn-outline btn-sm news-showcase__more">Читать далее</a>
               </div>
               <div class="news-showcase__media">
                 <div class="news-gallery" data-news-gallery>
@@ -156,12 +151,11 @@
               </div>
             </article>
 
-            <article class="news-showcase__article" data-news-article data-article-index="2" hidden>
+            <article class="news-showcase__article" data-news-article>
               <div class="news-showcase__content">
                 <time class="news-showcase__date" datetime="2025-10-18">18 октября 2025 г.</time>
                 <h3 class="news-showcase__heading">Сезон яблочного сидра стартовал на ферме</h3>
                 <p class="news-showcase__summary">Осенняя ферментация — продолжение семейной истории IZOTOFF: после молочного сезона команда переключается на яблочный урожай.</p>
-                <a href="#" class="btn btn-outline btn-sm news-showcase__more">Читать далее</a>
               </div>
               <div class="news-showcase__media">
                 <div class="news-gallery" data-news-gallery>
@@ -186,14 +180,8 @@
             </article>
           </div>
 
-          <div class="news-showcase__nav">
-            <button type="button" class="news-showcase__nav-btn" data-news-prev aria-label="Предыдущая новость">‹</button>
-            <div class="news-showcase__dots" data-news-dots aria-hidden="true">
-              <button type="button" class="news-showcase__dot is-active" data-news-dot="0" aria-label="Новость 1"></button>
-              <button type="button" class="news-showcase__dot" data-news-dot="1" aria-label="Новость 2"></button>
-              <button type="button" class="news-showcase__dot" data-news-dot="2" aria-label="Новость 3"></button>
-            </div>
-            <button type="button" class="news-showcase__nav-btn" data-news-next aria-label="Следующая новость">›</button>
+          <div class="news-showcase__footer">
+            <a href="#" class="btn btn-primary btn-lg news-showcase__all">Все новости</a>
           </div>
         </div>
       </div>

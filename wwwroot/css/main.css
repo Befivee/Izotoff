@@ -2224,13 +2224,29 @@ main {
 .news-showcase {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 2.5rem;
+}
+
+.news-showcase__articles {
+  display: flex;
+  flex-direction: column;
+  gap: 3.5rem;
 }
 
 .news-showcase__article {
   display: grid;
   gap: 2rem;
   align-items: stretch;
+}
+
+.news-showcase__footer {
+  display: flex;
+  justify-content: center;
+  padding-top: 0.5rem;
+}
+
+.news-showcase__all {
+  min-width: min(100%, 280px);
 }
 
 @media (min-width: 992px) {
