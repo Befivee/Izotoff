@@ -12,6 +12,7 @@ public class TelegramCommandHandler(
     IServiceScopeFactory scopeFactory,
     TelegramStateService stateService,
     IOptions<TelegramBotOptions> options,
+    IOptions<SiteSettings> siteSettings,
     ILogger<TelegramCommandHandler> logger) : IUpdateHandler
 {
     private static readonly TimeSpan UpdateTimeout = TimeSpan.FromSeconds(55);
@@ -223,7 +224,14 @@ public class TelegramCommandHandler(
             cancellationToken: cancellationToken);
     }
 
-    private string GetSiteUrl() => SiteSettings.DefaultBaseUrl;
+    private string GetSiteUrl()
+    {
+        var url = siteSettings.Value.BaseUrl?.Trim();
+        if (string.IsNullOrWhiteSpace(url) || url == SiteSettings.DefaultBaseUrl)
+            return "http://188.225.45.211:8080";
+
+        return url.TrimEnd('/');
+    }
 
     private async Task WithManager(
         ITelegramBotClient botClient,
