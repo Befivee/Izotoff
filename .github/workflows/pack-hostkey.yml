@@ -1,0 +1,59 @@
+name: Pack sites for Hostkey
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+    paths:
+      - ".github/workflows/pack-hostkey.yml"
+
+jobs:
+  pack:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Setup SSH
+      uses: webfactory/ssh-agent@v0.9.0
+      with:
+        ssh-private-key: ${{ secrets.SSH_KEY }}
+
+    - name: Trust Timeweb
+      run: |
+        mkdir -p ~/.ssh
+        ssh-keyscan -H 188.225.45.211 >> ~/.ssh/known_hosts
+
+    - name: Copy from Timeweb and pack
+      run: |
+        set -e
+        mkdir -p /tmp/pack
+        rsync -az root@188.225.45.211:/var/www/waldau/ /tmp/pack/waldau/
+        rsync -az root@188.225.45.211:/var/www/izotoff/ /tmp/pack/izotoff/
+        scp -q root@188.225.45.211:/etc/waldau.env /tmp/pack/waldau.env
+        scp -q root@188.225.45.211:/etc/izotoff.env /tmp/pack/izotoff.env
+        tar -C /tmp/pack -czf /tmp/sites.tgz waldau izotoff waldau.env izotoff.env
+        ls -lh /tmp/sites.tgz
+
+    - name: Upload archive link
+      run: |
+        set -e
+        URL=$(curl -fsS -F "file=@/tmp/sites.tgz" https://0x0.st || true)
+        if [ -z "$URL" ]; then
+          URL=$(curl -fsS -F "reqtype=fileupload" -F "fileToUpload=@/tmp/sites.tgz" https://catbox.moe/user/api.php || true)
+        fi
+        if [ -z "$URL" ]; then
+          echo "Could not upload archive" >&2
+          exit 1
+        fi
+        echo "DOWNLOAD_URL=$URL"
+        echo "## Скачайте на Hostkey" >> "$GITHUB_STEP_SUMMARY"
+        echo "" >> "$GITHUB_STEP_SUMMARY"
+        echo '```' >> "$GITHUB_STEP_SUMMARY"
+        echo "curl -L --max-time 300 $URL -o /tmp/sites.tgz" >> "$GITHUB_STEP_SUMMARY"
+        echo "curl -L --max-time 60 https://raw.githubusercontent.com/Befivee/Izotoff/main/deploy/install-from-tar.sh | bash" >> "$GITHUB_STEP_SUMMARY"
+        echo '```' >> "$GITHUB_STEP_SUMMARY"
+
+    - name: Keep artifact too
+      uses: actions/upload-artifact@v4
+      with:
+        name: sites-tgz
+        path: /tmp/sites.tgz
+        retention-days: 2

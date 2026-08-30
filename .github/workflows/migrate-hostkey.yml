@@ -2,10 +2,6 @@ name: Migrate Timeweb to Hostkey
 
 on:
   workflow_dispatch:
-  push:
-    branches: [ "main" ]
-    paths:
-      - ".github/workflows/migrate-hostkey.yml"
 
 jobs:
   migrate:
