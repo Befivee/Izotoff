@@ -7,6 +7,9 @@ on:
     paths:
       - ".github/workflows/pack-hostkey.yml"
 
+permissions:
+  contents: write
+
 jobs:
   pack:
     runs-on: ubuntu-latest
@@ -32,24 +35,18 @@ jobs:
         tar -C /tmp/pack -czf /tmp/sites.tgz waldau izotoff waldau.env izotoff.env
         ls -lh /tmp/sites.tgz
 
-    - name: Upload archive link
+    - name: Publish temporary GitHub Release
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         set -e
-        URL=$(curl -fsS -F "file=@/tmp/sites.tgz" https://0x0.st || true)
-        if [ -z "$URL" ]; then
-          URL=$(curl -fsS -F "reqtype=fileupload" -F "fileToUpload=@/tmp/sites.tgz" https://catbox.moe/user/api.php || true)
-        fi
-        if [ -z "$URL" ]; then
-          echo "Could not upload archive" >&2
-          exit 1
-        fi
-        echo "DOWNLOAD_URL=$URL"
-        echo "## Скачайте на Hostkey" >> "$GITHUB_STEP_SUMMARY"
-        echo "" >> "$GITHUB_STEP_SUMMARY"
-        echo '```' >> "$GITHUB_STEP_SUMMARY"
-        echo "curl -L --max-time 300 $URL -o /tmp/sites.tgz" >> "$GITHUB_STEP_SUMMARY"
-        echo "curl -L --max-time 60 https://raw.githubusercontent.com/Befivee/Izotoff/main/deploy/install-from-tar.sh | bash" >> "$GITHUB_STEP_SUMMARY"
-        echo '```' >> "$GITHUB_STEP_SUMMARY"
+        gh release delete hostkey-migrate --yes --repo Befivee/Izotoff || true
+        gh release create hostkey-migrate /tmp/sites.tgz \
+          --repo Befivee/Izotoff \
+          --title "Temporary Hostkey migrate pack" \
+          --notes "Удалить после переноса. Не держать публично." \
+          --prerelease
+        echo "RELEASE=https://github.com/Befivee/Izotoff/releases/download/hostkey-migrate/sites.tgz"
 
     - name: Keep artifact too
       uses: actions/upload-artifact@v4
