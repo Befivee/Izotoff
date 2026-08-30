@@ -1,0 +1,16 @@
+[Unit]
+Description=WaldauCastle ASP.NET App
+After=network.target
+
+[Service]
+WorkingDirectory=/var/www/waldau
+ExecStart=/usr/bin/dotnet /var/www/waldau/WaldauCastle.dll
+Restart=always
+RestartSec=5
+User=root
+Environment=ASPNETCORE_ENVIRONMENT=Production
+Environment=ASPNETCORE_URLS=http://0.0.0.0:5000
+EnvironmentFile=/etc/waldau.env
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,85 @@
+name: Migrate Timeweb to Hostkey
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+    paths:
+      - ".github/workflows/migrate-hostkey.yml"
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup SSH
+      uses: webfactory/ssh-agent@v0.9.0
+      with:
+        ssh-private-key: ${{ secrets.SSH_KEY }}
+
+    - name: Trust hosts
+      run: |
+        mkdir -p ~/.ssh
+        chmod 700 ~/.ssh
+        ssh-keyscan -H 188.225.45.211 >> ~/.ssh/known_hosts || true
+        ssh-keyscan -p 2222 -H 82.23.173.134 >> ~/.ssh/known_hosts || true
+        ssh-keyscan -H 82.23.173.134 >> ~/.ssh/known_hosts || true
+
+    - name: Find Hostkey SSH port
+      id: hk
+      run: |
+        set +e
+        ssh -p 2222 -o ConnectTimeout=20 -o StrictHostKeyChecking=no -o BatchMode=yes root@82.23.173.134 "echo ok" && echo "port=2222" >> "$GITHUB_OUTPUT" && exit 0
+        ssh -p 22 -o ConnectTimeout=20 -o StrictHostKeyChecking=no -o BatchMode=yes root@82.23.173.134 "echo ok" && echo "port=22" >> "$GITHUB_OUTPUT" && exit 0
+        echo "GitHub Actions cannot SSH to Hostkey on 22 or 2222" >&2
+        exit 1
+
+    - name: Copy sites from Timeweb to Hostkey
+      env:
+        HK_PORT: ${{ steps.hk.outputs.port }}
+      run: |
+        set -e
+        RSH="ssh -p ${HK_PORT} -o StrictHostKeyChecking=no"
+        mkdir -p /tmp/mig
+        rsync -az root@188.225.45.211:/var/www/waldau/ /tmp/mig/waldau/
+        rsync -az root@188.225.45.211:/var/www/izotoff/ /tmp/mig/izotoff/
+        scp -q root@188.225.45.211:/etc/waldau.env /tmp/mig/waldau.env
+        scp -q root@188.225.45.211:/etc/izotoff.env /tmp/mig/izotoff.env
+        $RSH root@82.23.173.134 "mkdir -p /var/www/waldau /var/www/izotoff"
+        rsync -az -e "$RSH" /tmp/mig/waldau/ root@82.23.173.134:/var/www/waldau/
+        rsync -az -e "$RSH" /tmp/mig/izotoff/ root@82.23.173.134:/var/www/izotoff/
+        scp -q -P "${HK_PORT}" -o StrictHostKeyChecking=no /tmp/mig/waldau.env root@82.23.173.134:/etc/waldau.env
+        scp -q -P "${HK_PORT}" -o StrictHostKeyChecking=no /tmp/mig/izotoff.env root@82.23.173.134:/etc/izotoff.env
+        scp -q -P "${HK_PORT}" -o StrictHostKeyChecking=no \
+          deploy/waldau.service deploy/izotoff.service \
+          deploy/nginx-waldau.conf deploy/nginx-izotoff.conf \
+          root@82.23.173.134:/tmp/
+
+    - name: Enable services on Hostkey
+      env:
+        HK_PORT: ${{ steps.hk.outputs.port }}
+      run: |
+        ssh -p "${HK_PORT}" -o StrictHostKeyChecking=no root@82.23.173.134 'bash -s' <<'EOS'
+        set -e
+        chmod 600 /etc/waldau.env /etc/izotoff.env
+        sed -i '/Telegram__ProxyUrl/d' /etc/izotoff.env
+        grep -q 'SiteSettings__BaseUrl=' /etc/izotoff.env || echo 'SiteSettings__BaseUrl=http://82.23.173.134:8080' >> /etc/izotoff.env
+        cp /tmp/waldau.service /etc/systemd/system/waldau.service
+        cp /tmp/izotoff.service /etc/systemd/system/izotoff.service
+        cp /tmp/nginx-waldau.conf /etc/nginx/sites-available/waldau
+        cp /tmp/nginx-izotoff.conf /etc/nginx/sites-available/izotoff
+        rm -f /etc/nginx/sites-enabled/default
+        ln -sfn /etc/nginx/sites-available/waldau /etc/nginx/sites-enabled/waldau
+        ln -sfn /etc/nginx/sites-available/izotoff /etc/nginx/sites-enabled/izotoff
+        systemctl daemon-reload
+        systemctl enable --now waldau izotoff
+        systemctl restart waldau izotoff
+        nginx -t
+        systemctl reload nginx
+        echo "==== STATUS ===="
+        systemctl is-active waldau izotoff nginx
+        ss -tlnp | grep -E ':80|:8080|:5000|:5010' || true
+        echo MIGRATE_OK
+        EOS
