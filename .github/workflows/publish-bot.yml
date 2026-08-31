@@ -1,0 +1,38 @@
+name: Publish Izotoff bot build
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+    paths:
+      - ".github/workflows/publish-bot.yml"
+      - "Program.cs"
+      - "Services/**"
+      - "Options/**"
+      - "Izotoff.csproj"
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 10.0.x
+    - name: Publish
+      run: dotnet publish Izotoff.csproj -c Release -o publish
+    - name: Pack
+      run: tar -czf izotoff-bot.tgz -C publish .
+    - name: Release
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        gh release delete izotoff-bot --yes --repo Befivee/Izotoff || true
+        gh release create izotoff-bot izotoff-bot.tgz \
+          --repo Befivee/Izotoff \
+          --target "$GITHUB_SHA" \
+          --title "Izotoff bot build" \
+          --notes "Hostkey: unpack into /var/www/izotoff and systemctl restart izotoff." \
+          --prerelease
