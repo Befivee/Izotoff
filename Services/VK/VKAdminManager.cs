@@ -30,7 +30,7 @@ public partial class VKAdminManager(
             peerId,
             "🍇 Панель управления IZOTOFF\n\n" +
             "1. 📋 Заявки\n" +
-            "2. 🎭 Мероприятия\n" +
+            "2. 🚶 Посещения\n" +
             "3. 📊 Статистика",
             VKKeyboards.MainMenu(),
             cancellationToken);
@@ -67,7 +67,7 @@ public partial class VKAdminManager(
         session.PageIds = paged.Select(e => e.Id).ToList();
 
         var intro = all.Count == 0
-            ? "🎭 Мероприятий пока нет.\n\nНажмите «➕ Добавить»."
+            ? "🚶 Посещений пока нет.\n\nНажмите «➕ Добавить»."
             : CastleAdminContentService.BuildNumberedEventsIntro(all, session.ListPage);
 
         await apiClient.SendMessageAsync(
@@ -82,7 +82,7 @@ public partial class VKAdminManager(
         var entity = await events.GetByIdAsync(eventId, cancellationToken);
         if (entity is null)
         {
-            await apiClient.SendMessageAsync(peerId, "Мероприятие не найдено.", cancellationToken: cancellationToken);
+            await apiClient.SendMessageAsync(peerId, "Посещение не найдено.", cancellationToken: cancellationToken);
             await SendEventsListAsync(peerId, cancellationToken);
             return;
         }
@@ -112,7 +112,7 @@ public partial class VKAdminManager(
 
         await apiClient.SendMessageAsync(
             peerId,
-            "➕ Новое мероприятие\n\nШаг 1 из 4\nВведите название:",
+            "➕ Новое посещение\n\nШаг 1 из 4\nВведите название:",
             VKKeyboards.Remove(),
             cancellationToken);
     }
@@ -162,13 +162,13 @@ public partial class VKAdminManager(
         var entity = await events.GetByIdAsync(eventId, cancellationToken);
         if (entity is null)
         {
-            await apiClient.SendMessageAsync(peerId, "Мероприятие не найдено.", cancellationToken: cancellationToken);
+            await apiClient.SendMessageAsync(peerId, "Посещение не найдено.", cancellationToken: cancellationToken);
             return;
         }
 
         await apiClient.SendMessageAsync(
             peerId,
-            $"🗑 Удалить мероприятие «{entity.Title}»?",
+            $"🗑 Удалить посещение «{entity.Title}»?",
             VKKeyboards.DeleteConfirmation(),
             cancellationToken);
 
@@ -180,7 +180,7 @@ public partial class VKAdminManager(
         var entity = await events.GetByIdAsync(eventId, cancellationToken);
         if (entity is null)
         {
-            await apiClient.SendMessageAsync(peerId, "Мероприятие уже удалено.", cancellationToken: cancellationToken);
+            await apiClient.SendMessageAsync(peerId, "Посещение уже удалено.", cancellationToken: cancellationToken);
             await SendEventsListAsync(peerId, cancellationToken);
             return;
         }
@@ -189,7 +189,7 @@ public partial class VKAdminManager(
         await events.DeleteAsync(eventId, cancellationToken);
         stateService.GetOrCreate(peerId).Reset();
 
-        await apiClient.SendMessageAsync(peerId, "✅ Мероприятие удалено.", cancellationToken: cancellationToken);
+        await apiClient.SendMessageAsync(peerId, "✅ Посещение удалено.", cancellationToken: cancellationToken);
         await SendEventsListAsync(peerId, cancellationToken);
     }
 
@@ -475,7 +475,7 @@ public partial class VKAdminManager(
         await events.CreateAsync(entity, cancellationToken);
         session.Reset();
 
-        await apiClient.SendMessageAsync(peerId, "✅ Мероприятие создано!", cancellationToken: cancellationToken);
+        await apiClient.SendMessageAsync(peerId, "✅ Посещение создано!", cancellationToken: cancellationToken);
         await SendEventsListAsync(peerId, cancellationToken);
     }
 
@@ -499,7 +499,7 @@ public partial class VKAdminManager(
         if (entity is null)
         {
             session.Reset();
-            await apiClient.SendMessageAsync(peerId, "Мероприятие не найдено.", cancellationToken: cancellationToken);
+            await apiClient.SendMessageAsync(peerId, "Посещение не найдено.", cancellationToken: cancellationToken);
             return;
         }
 
@@ -532,7 +532,7 @@ public partial class VKAdminManager(
         if (entity is null)
         {
             session.Reset();
-            await apiClient.SendMessageAsync(peerId, "Мероприятие не найдено.", cancellationToken: cancellationToken);
+            await apiClient.SendMessageAsync(peerId, "Посещение не найдено.", cancellationToken: cancellationToken);
             return;
         }
 
@@ -559,7 +559,7 @@ public partial class VKAdminManager(
         if (entity is null)
         {
             session.Reset();
-            await apiClient.SendMessageAsync(peerId, "Мероприятие не найдено.", cancellationToken: cancellationToken);
+            await apiClient.SendMessageAsync(peerId, "Посещение не найдено.", cancellationToken: cancellationToken);
             return;
         }
 
@@ -596,7 +596,7 @@ public partial class VKAdminManager(
         if (entity is not null)
             return true;
 
-        await apiClient.SendMessageAsync(peerId, "Мероприятие не найдено.", cancellationToken: cancellationToken);
+        await apiClient.SendMessageAsync(peerId, "Посещение не найдено.", cancellationToken: cancellationToken);
         await SendEventsListAsync(peerId, cancellationToken);
         return false;
     }

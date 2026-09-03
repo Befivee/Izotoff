@@ -29,7 +29,7 @@ public partial class TelegramEventManager(
             chatId,
             "🍇 Панель управления IZOTOFF\n\n" +
             "1. 📋 Заявки\n" +
-            "2. 🎭 Мероприятия\n" +
+            "2. 🚶 Посещения\n" +
             "3. 📊 Статистика",
             replyMarkup: TelegramKeyboards.MainMenu(),
             cancellationToken: cancellationToken);
@@ -70,7 +70,7 @@ public partial class TelegramEventManager(
         session.PageIds = paged.Select(e => e.Id).ToList();
 
         var intro = all.Count == 0
-            ? "🎭 Мероприятий пока нет.\n\nНажмите «➕ Добавить»."
+            ? "🚶 Посещений пока нет.\n\nНажмите «➕ Добавить»."
             : CastleAdminContentService.BuildNumberedEventsIntro(all, session.ListPage);
 
         await bot.SendMessage(
@@ -89,7 +89,7 @@ public partial class TelegramEventManager(
         var entity = await events.GetByIdAsync(eventId, cancellationToken);
         if (entity is null)
         {
-            await bot.SendMessage(chatId, "Мероприятие не найдено.", cancellationToken: cancellationToken);
+            await bot.SendMessage(chatId, "Посещение не найдено.", cancellationToken: cancellationToken);
             await SendEventsListAsync(bot, chatId, cancellationToken);
             return;
         }
@@ -115,7 +115,7 @@ public partial class TelegramEventManager(
 
         await bot.SendMessage(
             chatId,
-            "➕ Новое мероприятие\n\nШаг 1 из 4\nВведите название:",
+            "➕ Новое посещение\n\nШаг 1 из 4\nВведите название:",
             replyMarkup: TelegramKeyboards.Remove(),
             cancellationToken: cancellationToken);
     }
@@ -169,13 +169,13 @@ public partial class TelegramEventManager(
         var entity = await events.GetByIdAsync(eventId, cancellationToken);
         if (entity is null)
         {
-            await bot.SendMessage(chatId, "Мероприятие не найдено.", cancellationToken: cancellationToken);
+            await bot.SendMessage(chatId, "Посещение не найдено.", cancellationToken: cancellationToken);
             return;
         }
 
         await bot.SendMessage(
             chatId,
-            $"🗑 Удалить мероприятие «{entity.Title}»?",
+            $"🗑 Удалить посещение «{entity.Title}»?",
             replyMarkup: TelegramKeyboards.DeleteConfirmation(),
             cancellationToken: cancellationToken);
 
@@ -187,7 +187,7 @@ public partial class TelegramEventManager(
         var entity = await events.GetByIdAsync(eventId, cancellationToken);
         if (entity is null)
         {
-            await bot.SendMessage(chatId, "Мероприятие уже удалено.", cancellationToken: cancellationToken);
+            await bot.SendMessage(chatId, "Посещение уже удалено.", cancellationToken: cancellationToken);
             await SendEventsListAsync(bot, chatId, cancellationToken);
             return;
         }
@@ -196,7 +196,7 @@ public partial class TelegramEventManager(
         await events.DeleteAsync(eventId, cancellationToken);
         stateService.GetOrCreate(chatId).Reset();
 
-        await bot.SendMessage(chatId, "✅ Мероприятие удалено.", cancellationToken: cancellationToken);
+        await bot.SendMessage(chatId, "✅ Посещение удалено.", cancellationToken: cancellationToken);
         await SendEventsListAsync(bot, chatId, cancellationToken);
     }
 
@@ -389,7 +389,7 @@ public partial class TelegramEventManager(
         }, cancellationToken);
 
         session.Reset();
-        await bot.SendMessage(chatId, "✅ Мероприятие создано!", cancellationToken: cancellationToken);
+        await bot.SendMessage(chatId, "✅ Посещение создано!", cancellationToken: cancellationToken);
         await SendEventsListAsync(bot, chatId, cancellationToken);
     }
 
@@ -510,7 +510,7 @@ public partial class TelegramEventManager(
         if (await events.GetByIdAsync(eventId, cancellationToken) is not null)
             return true;
 
-        await bot.SendMessage(chatId, "Мероприятие не найдено.", cancellationToken: cancellationToken);
+        await bot.SendMessage(chatId, "Посещение не найдено.", cancellationToken: cancellationToken);
         await SendEventsListAsync(bot, chatId, cancellationToken);
         return false;
     }

@@ -1,17 +1,21 @@
 using Microsoft.AspNetCore.Mvc;
-using Izotoff.Models;
+using Izotoff.Services;
+using Izotoff.ViewModels;
 
 namespace Izotoff.Controllers;
 
-public class ExcursionController : Controller
+public class ExcursionController(IEventService events) : Controller
 {
-    public IActionResult Index()
+    public async Task<IActionResult> Index(CancellationToken cancellationToken)
     {
         ViewData["MetaDescription"] =
-            "Экскурсии IZOTOFF: на ферму и на виноградник. Дегустации, знакомство с животными. Запись онлайн.";
-        ViewData["MetaKeywords"] = "IZOTOFF, экскурсии на ферму, виноградник, дегустация, Калининградская область";
+            "Посещение IZOTOFF: эко-ферма, сыроварня и программы на винограднике. Запись онлайн.";
+        ViewData["MetaKeywords"] = "IZOTOFF, посещение фермы, экскурсия, виноградник, дегустация, Калининградская область";
         ViewData["OgType"] = "website";
 
-        return View(ExcursionCatalog.All);
+        return View(new VisitIndexViewModel
+        {
+            Visits = await events.GetAllAsync(cancellationToken)
+        });
     }
 }

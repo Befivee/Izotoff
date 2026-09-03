@@ -64,8 +64,8 @@
             </article>
             <article class="why-card reveal">
                 <span class="why-card__num">03</span>
-                <h3>Дегустации и туры</h3>
-                <p>Экскурсии на ферму, винные и гастрономические программы, пикники и тематические вечера — по записи.</p>
+                <h3>Дегустации и визиты</h3>
+                <p>Посещение фермы, винные и гастрономические программы, пикники и тематические вечера — по записи.</p>
             </article>
             <article class="why-card reveal">
                 <span class="why-card__num">04</span>
@@ -76,46 +76,22 @@
     </div>
 </section>
 
-<section class="section section--tours" aria-labelledby="tours-title">
+<section class="section section--events" aria-labelledby="visits-title">
     <div class="container-xl">
         <header class="section-header section-header--row reveal">
             <div>
-                <h2 id="tours-title" class="section-header__title">Экскурсии</h2>
-                <p class="section-header__lead">Выберите программу и запишитесь онлайн</p>
+                <h2 id="visits-title" class="section-header__title">Посещение</h2>
+                <p class="section-header__lead">Основной визит на ферму и дополнительные программы</p>
             </div>
-            <a asp-controller="Excursion" asp-action="Index" class="link-arrow">Подробнее</a>
+            <a asp-controller="Excursion" asp-action="Index" class="link-arrow">Все посещения</a>
         </header>
-        <div class="excursion-types excursion-types--compact">
-            @foreach (var excursion in ExcursionCatalog.All)
+        <div class="cards-grid cards-grid--3">
+            <partial name="Components/_PinnedVisitCard" />
+            @foreach (var evt in Model.UpcomingEvents)
             {
-                <partial name="Components/_ExcursionTypeBlock" model="excursion" />
+                <partial name="Components/_EventCard" model="evt" />
             }
         </div>
-    </div>
-</section>
-
-<section class="section section--events" aria-labelledby="events-title">
-    <div class="container-xl">
-        <header class="section-header section-header--row reveal">
-            <div>
-                <h2 id="events-title" class="section-header__title">Мероприятия</h2>
-                <p class="section-header__lead">События на территории фермы</p>
-            </div>
-            <a asp-controller="Event" asp-action="Index" class="link-arrow">Все мероприятия</a>
-        </header>
-        @if (Model.UpcomingEvents.Count == 0)
-        {
-            <partial name="Components/_EventsEmpty" />
-        }
-        else
-        {
-            <div class="cards-grid cards-grid--3">
-                @foreach (var evt in Model.UpcomingEvents)
-                {
-                    <partial name="Components/_EventCard" model="evt" />
-                }
-            </div>
-        }
     </div>
 </section>
 

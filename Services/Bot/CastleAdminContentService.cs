@@ -56,24 +56,38 @@ public class CastleAdminContentService(
 
         return
             "📊 Статистика\n\n" +
-            $"🎭 Мероприятий: {eventsCount} (предстоящих: {upcomingCount})\n" +
-            $"📋 Заявок: {bookingsCount}\n" +
-            $"🚶 Форматов экскурсий: {ExcursionCatalog.All.Count}";
+            $"🚶 Посещений: {eventsCount} (предстоящих: {upcomingCount})\n" +
+            $"📋 Заявок: {bookingsCount}";
     }
 
-    public Task<string> BuildExcursionsTextAsync(CancellationToken cancellationToken)
+    public async Task<string> BuildExcursionsTextAsync(CancellationToken cancellationToken)
     {
-        var lines = ExcursionCatalog.All.Select(e =>
-            $"• {e.Title}\n  ⏱ {e.Duration} · 💰 {e.DisplayPrice}\n  {Truncate(e.Description, 120)}");
+        var extra = await db.Events
+            .OrderBy(e => e.EventDate)
+            .ToListAsync(cancellationToken);
 
-        return Task.FromResult("🚶 Экскурсии:\n\n" + string.Join("\n\n", lines));
+        var lines = new List<string>
+        {
+            "🚶 Посещения:\n",
+            $"• {PinnedVisit.Title} (всегда на сайте)\n  {Truncate(PinnedVisit.Description, 120)}"
+        };
+
+        foreach (var item in extra)
+        {
+            lines.Add(
+                $"• {item.Title}\n" +
+                $"  📅 {item.EventDate.ToString("d MMMM yyyy", RuCulture)}\n" +
+                $"  {Truncate(item.Description, 120)}");
+        }
+
+        return string.Join("\n\n", lines);
     }
 
     public static string BuildNumberedEventsIntro(IReadOnlyList<Event> events, int page)
     {
         var paged = BotListPaging.GetPage(events, page);
         var totalPages = BotListPaging.TotalPages(events.Count);
-        var lines = new List<string> { $"🎭 Мероприятия (стр. {page + 1}/{totalPages}):" };
+        var lines = new List<string> { $"🚶 Посещения (стр. {page + 1}/{totalPages}):" };
 
         for (var i = 0; i < paged.Count; i++)
             lines.Add($"{i + 1}. {paged[i].Title}");
@@ -94,7 +108,7 @@ public class CastleAdminContentService(
     }
 
     public string BuildEventDetailsText(Event entity) =>
-        $"🎭 {entity.Title}\n\n" +
+        $"🚶 {entity.Title}\n\n" +
         $"📅 {entity.EventDate.ToString("d MMMM yyyy", RuCulture)}\n\n" +
         $"{entity.Description}";
 
@@ -120,7 +134,7 @@ public class CastleAdminContentService(
 
     public static string BuildPublicWelcomeText(string siteUrl) =>
         "🍇 IZOTOFF\n\n" +
-        "Напишите «экскурсии» — список программ с сайта.\n" +
+        "Напишите «посещения» — список программ с сайта.\n" +
         $"Запись онлайн: {siteUrl}";
 
     public static bool IsExcursionsRequest(string? text)
@@ -129,7 +143,7 @@ public class CastleAdminContentService(
             return false;
 
         var normalized = text.Trim().ToLowerInvariant();
-        return normalized is "экскурсии" or "экскурсия" or "/excursions" or "excursions";
+        return normalized is "посещения" or "посещение" or "экскурсии" or "экскурсия" or "/excursions" or "excursions";
     }
 
     private static string Truncate(string value, int maxLength) =>

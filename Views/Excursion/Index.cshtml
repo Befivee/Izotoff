@@ -1,25 +1,24 @@
-@model IReadOnlyList<ExcursionTypeInfo>
+@model VisitIndexViewModel
 @{
-    ViewData["Title"] = "Экскурсии";
+    ViewData["Title"] = "Посещение";
 }
 
 <section class="page-hero page-hero--compact" aria-labelledby="page-title">
     <partial name="_PageHeroPhoto" model="@(new PageHeroPhotoViewModel("page-hero__bg--excursions"))" />
     <div class="container-xl page-hero__content reveal">
-        <h1 id="page-title" class="page-hero__title">Экскурсии</h1>
-        <p class="page-hero__lead">Программы на ферме и винограднике — выберите формат и оставьте заявку</p>
+        <h1 id="page-title" class="page-hero__title">Посещение</h1>
+        <p class="page-hero__lead">Основной формат визита и дополнительные программы — запишитесь онлайн</p>
     </div>
 </section>
 
-<section class="section" aria-label="Виды экскурсий">
+<section class="section" aria-label="Варианты посещения">
     <div class="container-xl">
-        <div class="excursion-types">
-            @foreach (var excursion in Model)
+        <div class="cards-grid cards-grid--2">
+            <partial name="Components/_PinnedVisitCard" />
+            @foreach (var visit in Model.Visits)
             {
-                <partial name="Components/_ExcursionTypeBlock" model="excursion" />
+                <partial name="Components/_EventCard" model="visit" />
             }
         </div>
-
-        <partial name="Components/_ExcursionPricing" />
     </div>
 </section>
