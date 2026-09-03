@@ -200,6 +200,13 @@
 
   h2 { font-size: 1.25rem; margin-bottom: $space-xs; }
   p { font-size: 0.9375rem; color: $color-text-muted; margin: 0 0 $space-xs; }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $space-sm;
+    margin-top: $space-sm;
+  }
 }
 
 .route-steps {

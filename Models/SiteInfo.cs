@@ -7,10 +7,10 @@ public static class SiteInfo
     public const string CastleName = "IZOTOFF";
     public const string OperatorName = "Фермерское хозяйство «Изотов» (IZOTOFF CHEESE)";
     public const string PolicyPublishedDate = "УТОЧНЯЕТСЯ";
-    public const string SiteUrl = "https://TODO-ДОМЕН.ru";
+    public const string SiteUrl = "https://изотофф39.рф";
     public const string HomePageTitle = "IZOTOFF — официальный сайт";
     public const string BrowserTitle = HomePageTitle;
-    public const string Tagline = "Первый виноградник Калининградской области";
+    public const string Tagline = "Первый и самый большой виноградник Калининградской области";
     public const string Location = "Калининградская область, Зеленоградский район";
     public const string Address = "Калининградская обл., Зеленоградский район (точный адрес — УТОЧНЯЕТСЯ)";
     public const string Phone = "ТЕЛЕФОН УТОЧНЯЕТСЯ";
@@ -40,7 +40,10 @@ public static class SiteInfo
         GetDocumentTitle(pageTitle, null);
 
     public static string YandexMapsUrl =>
-        $"https://yandex.ru/maps/?pt={Longitude.ToString(CultureInfo.InvariantCulture)},{Latitude.ToString(CultureInfo.InvariantCulture)}&z=14&l=map";
+        $"https://yandex.ru/maps/?text={Uri.EscapeDataString(Address)}&pt={Longitude.ToString(CultureInfo.InvariantCulture)},{Latitude.ToString(CultureInfo.InvariantCulture)}&z=16&l=map";
+
+    public static string TwoGisUrl =>
+        $"https://2gis.ru/geo/{Longitude.ToString(CultureInfo.InvariantCulture)},{Latitude.ToString(CultureInfo.InvariantCulture)}?m={Longitude.ToString(CultureInfo.InvariantCulture)},{Latitude.ToString(CultureInfo.InvariantCulture)},16&query={Uri.EscapeDataString(Address)}";
 
     public static string YandexMapEmbedUrl =>
         $"https://yandex.ru/map-widget/v1/?ll={Longitude.ToString(CultureInfo.InvariantCulture)}%2C{Latitude.ToString(CultureInfo.InvariantCulture)}&z=14&l=map&pt={Longitude.ToString(CultureInfo.InvariantCulture)}%2C{Latitude.ToString(CultureInfo.InvariantCulture)}";

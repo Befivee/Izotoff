@@ -228,7 +228,7 @@ public class TelegramCommandHandler(
     {
         var url = siteSettings.Value.BaseUrl?.Trim();
         if (string.IsNullOrWhiteSpace(url) || url == SiteSettings.DefaultBaseUrl)
-            return "http://188.225.45.211:8080";
+            return "https://изотофф39.рф";
 
         return url.TrimEnd('/');
     }

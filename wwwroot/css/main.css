@@ -1768,6 +1768,12 @@ main {
   color: #5c5c62;
   margin: 0 0 0.5rem;
 }
+.route-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+}
 
 .directions-entrance {
   display: grid;

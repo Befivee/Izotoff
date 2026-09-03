@@ -4,7 +4,7 @@ public class SiteSettings
 {
     public const string SectionName = "SiteSettings";
 
-    public const string DefaultBaseUrl = "https://TODO-ДОМЕН.ru";
+    public const string DefaultBaseUrl = "https://изотофф39.рф";
 
     public string BaseUrl { get; set; } = DefaultBaseUrl;
 
