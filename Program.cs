@@ -54,6 +54,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddScoped<IExcursionService, ExcursionService>();
 builder.Services.AddScoped<IEventService, EventService>();
+builder.Services.AddScoped<IPublicVisitCatalog, PublicVisitCatalog>();
 builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddHostedService<BookingCleanupService>();
 builder.Services.AddScoped<IEventImageService, EventImageService>();
@@ -301,6 +302,20 @@ if (telegramOptions.AcceptRelay)
 
         using var response = await client.SendAsync(forward);
         return Results.StatusCode((int)response.StatusCode);
+    });
+
+    app.MapGet("/internal/visits", async (
+        HttpRequest request,
+        IEventService events,
+        IOptions<TelegramBotOptions> botOptions) =>
+    {
+        var expected = botOptions.Value.RelaySecret?.Trim() ?? "";
+        var provided = request.Headers["X-Relay-Secret"].ToString();
+        if (expected.Length == 0 || !CryptographicEquals(expected, provided))
+            return Results.Unauthorized();
+
+        var list = await events.GetAllAsync();
+        return Results.Ok(list.Select(VisitRelayDto.From));
     });
 }
 

@@ -30,6 +30,18 @@ public partial class TelegramBotOptions
     /// <summary>Timeweb: POST booking notifications here (Cloudflare tunnel to Hostkey).</summary>
     public string RelayUrl { get; set; } = string.Empty;
 
+    public string RelayOrigin
+    {
+        get
+        {
+            var raw = RelayUrl?.Trim();
+            if (string.IsNullOrWhiteSpace(raw) || !Uri.TryCreate(raw, UriKind.Absolute, out var uri))
+                return string.Empty;
+
+            return uri.GetLeftPart(UriPartial.Authority);
+        }
+    }
+
     /// <summary>Shared secret for Timeweb → Hostkey relay.</summary>
     public string RelaySecret { get; set; } = string.Empty;
 

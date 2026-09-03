@@ -4,7 +4,7 @@ using Izotoff.ViewModels;
 
 namespace Izotoff.Controllers;
 
-public class ExcursionController(IEventService events) : Controller
+public class ExcursionController(IPublicVisitCatalog visits) : Controller
 {
     public async Task<IActionResult> Index(CancellationToken cancellationToken)
     {
@@ -15,7 +15,7 @@ public class ExcursionController(IEventService events) : Controller
 
         return View(new VisitIndexViewModel
         {
-            Visits = await events.GetAllAsync(cancellationToken)
+            Visits = await visits.GetAllAsync(cancellationToken)
         });
     }
 }
