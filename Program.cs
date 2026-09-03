@@ -72,6 +72,15 @@ var useTelegramRelay = !string.IsNullOrWhiteSpace(telegramOptions.RelayUrl);
 if (botOnly)
     builder.WebHost.UseUrls("http://127.0.0.1:5010");
 
+if (telegramOptions.AcceptRelay)
+{
+    builder.Services.AddHttpClient("waldau_local_relay", client =>
+    {
+        client.Timeout = TimeSpan.FromSeconds(20);
+        client.BaseAddress = new Uri("http://127.0.0.1:5000/");
+    });
+}
+
 if (useTelegramRelay)
 {
     builder.Services.AddHttpClient("telegram_relay", client =>
@@ -271,6 +280,27 @@ if (telegramOptions.AcceptRelay)
 
         var sent = await telegram.NotifyNewBookingAsync(payload.ToBooking());
         return sent ? Results.Ok() : Results.StatusCode(502);
+    });
+
+    app.MapPost("/internal/waldau/telegram/booking", async (
+        HttpRequest request,
+        IHttpClientFactory httpClientFactory,
+        IOptions<TelegramBotOptions> botOptions) =>
+    {
+        var expected = botOptions.Value.RelaySecret?.Trim() ?? "";
+        var provided = request.Headers["X-Relay-Secret"].ToString();
+        if (expected.Length == 0 || !CryptographicEquals(expected, provided))
+            return Results.Unauthorized();
+
+        var client = httpClientFactory.CreateClient("waldau_local_relay");
+        using var reader = new StreamReader(request.Body);
+        var body = await reader.ReadToEndAsync();
+        using var forward = new HttpRequestMessage(HttpMethod.Post, "internal/telegram/booking");
+        forward.Headers.TryAddWithoutValidation("X-Relay-Secret", provided);
+        forward.Content = new StringContent(body, System.Text.Encoding.UTF8, "application/json");
+
+        using var response = await client.SendAsync(forward);
+        return Results.StatusCode((int)response.StatusCode);
     });
 }
 
