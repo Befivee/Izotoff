@@ -15,7 +15,14 @@
 <section class="section" aria-label="Лента новостей">
     <div class="container-xl">
         <div class="news-showcase reveal">
-            <partial name="Components/_NewsArticleList" model="Model" />
+            @if (Model.Count == 0)
+            {
+                <p class="news-showcase__empty">Новостей пока нет.</p>
+            }
+            else
+            {
+                <partial name="Components/_NewsArticleList" model="Model" />
+            }
         </div>
     </div>
 </section>

@@ -2375,8 +2375,17 @@ main {
   background-color: #8a6a3a;
 }
 
-.news-gallery__slide--tone-clay {
-  background-color: #7a4f45;
+.news-gallery__slide--photo {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #e8e4de;
+}
+
+.news-showcase__empty {
+  margin: 0;
+  text-align: center;
+  color: #5c5c62;
 }
 
 .news-gallery__controls {

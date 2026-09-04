@@ -1,14 +1,29 @@
-using Microsoft.EntityFrameworkCore;
-
-namespace Izotoff.Data;
-
-public static class DbInitializer
-{
-    /// <summary>
-    /// Применяет миграции EF Core при старте приложения.
-    /// Демо-данные не добавляются — контент создаётся через админку и ботов.
-    /// </summary>
-    public static async Task InitializeAsync(ApplicationDbContext context) =>
-        await context.Database.MigrateAsync();
-}
-
+using Microsoft.EntityFrameworkCore;
+using Izotoff.Models;
+
+namespace Izotoff.Data;
+
+public static class DbInitializer
+{
+    public static async Task InitializeAsync(ApplicationDbContext context)
+    {
+        await context.Database.MigrateAsync();
+        await SeedNewsAsync(context);
+    }
+
+    private static async Task SeedNewsAsync(ApplicationDbContext context)
+    {
+        if (await context.News.AnyAsync())
+            return;
+
+        var now = DateTime.UtcNow;
+        foreach (var item in HomeNewsCatalog.SeedItems)
+        {
+            item.CreatedAt = now;
+            item.UpdatedAt = now;
+            context.News.Add(item);
+        }
+
+        await context.SaveChangesAsync();
+    }
+}

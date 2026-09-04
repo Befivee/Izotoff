@@ -3,6 +3,7 @@ using System;
 using Izotoff.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Izotoff.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260904162645_AddNews")]
+    partial class AddNews
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "10.0.8");
@@ -69,7 +72,7 @@ namespace Izotoff.Data.Migrations
 
                     b.HasIndex("TelegramNotifiedAt", "VkNotifiedAt", "CreatedAt");
 
-                    b.ToTable("Bookings", (string)null);
+                    b.ToTable("Bookings");
                 });
 
             modelBuilder.Entity("Izotoff.Models.Event", b =>
@@ -106,7 +109,7 @@ namespace Izotoff.Data.Migrations
 
                     b.HasIndex("EventDate");
 
-                    b.ToTable("Events", (string)null);
+                    b.ToTable("Events");
                 });
 
             modelBuilder.Entity("Izotoff.Models.Excursion", b =>
@@ -141,7 +144,7 @@ namespace Izotoff.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Excursions", (string)null);
+                    b.ToTable("Excursions");
                 });
 
             modelBuilder.Entity("Izotoff.Models.News", b =>
@@ -178,7 +181,7 @@ namespace Izotoff.Data.Migrations
 
                     b.HasIndex("PublishedAt");
 
-                    b.ToTable("News", (string)null);
+                    b.ToTable("News");
                 });
 #pragma warning restore 612, 618
         }

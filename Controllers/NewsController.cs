@@ -1,14 +1,15 @@
 using Microsoft.AspNetCore.Mvc;
-using Izotoff.Models;
+using Izotoff.Services;
 
 namespace Izotoff.Controllers;
 
-public class NewsController : Controller
+public class NewsController(INewsService news) : Controller
 {
-    public IActionResult Index()
+    public async Task<IActionResult> Index(CancellationToken cancellationToken)
     {
         ViewData["MetaDescription"] = "Новости IZOTOFF — семейная эко-ферма и виноградник.";
         ViewData["MetaKeywords"] = "IZOTOFF, новости, ферма, виноградник";
-        return View(HomeNewsCatalog.Featured);
+        var items = await news.GetAllAsync(cancellationToken);
+        return View(items.Select(item => item.ToHomeItem()).ToList());
     }
 }

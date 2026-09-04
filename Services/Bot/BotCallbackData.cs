@@ -5,6 +5,7 @@ public static class BotCallbackData
     public const string MenuMain = "menu:main";
     public const string MenuBookings = "menu:bookings";
     public const string MenuEvents = "menu:events";
+    public const string MenuNews = "menu:news";
     public const string MenuExcursions = "menu:excursions";
     public const string MenuStats = "menu:stats";
 
@@ -13,6 +14,9 @@ public static class BotCallbackData
 
     public const string EventAdd = "evt:add";
     public const string EventBackList = "evt:back_list";
+
+    public const string NewsAdd = "news:add";
+    public const string NewsBackList = "news:back_list";
 
     public const string ExcursionAdd = "exc:add";
     public const string ExcursionBackList = "exc:back_list";
@@ -24,6 +28,15 @@ public static class BotCallbackData
     public static string EventDelete(int id) => $"evt:del:{id}";
     public static string EventDeleteYes(int id) => $"evt:del_yes:{id}";
     public static string EventDeleteNo(int id) => $"evt:del_no:{id}";
+
+    public static string NewsView(int id) => $"news:view:{id}";
+    public static string NewsEditTitle(int id) => $"news:edit_title:{id}";
+    public static string NewsEditDescription(int id) => $"news:edit_desc:{id}";
+    public static string NewsEditDate(int id) => $"news:edit_date:{id}";
+    public static string NewsEditImage(int id) => $"news:edit_img:{id}";
+    public static string NewsDelete(int id) => $"news:del:{id}";
+    public static string NewsDeleteYes(int id) => $"news:del_yes:{id}";
+    public static string NewsDeleteNo(int id) => $"news:del_no:{id}";
 
     public static string ExcursionView(int id) => $"exc:view:{id}";
     public static string ExcursionEditTitle(int id) => $"exc:edit_title:{id}";
@@ -44,6 +57,9 @@ public static class BotCallbackData
 
     public static bool TryParseExcursionId(string data, string prefix, out int excursionId) =>
         TryParseId(data, prefix, out excursionId);
+
+    public static bool TryParseNewsId(string data, string prefix, out int newsId) =>
+        TryParseId(data, prefix, out newsId);
 
     public static bool TryParseBookingId(string data, string prefix, out int bookingId) =>
         TryParseId(data, prefix, out bookingId);

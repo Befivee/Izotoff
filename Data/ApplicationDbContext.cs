@@ -8,6 +8,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public DbSet<Booking> Bookings => Set<Booking>();
     public DbSet<Event> Events => Set<Event>();
     public DbSet<Excursion> Excursions => Set<Excursion>();
+    public DbSet<News> News => Set<News>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -19,6 +20,12 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
         modelBuilder.Entity<Event>(entity =>
         {
             entity.HasIndex(e => e.EventDate);
+        });
+
+        modelBuilder.Entity<News>(entity =>
+        {
+            entity.HasIndex(e => e.PublishedAt);
+            entity.Property(e => e.ImagePaths).HasMaxLength(1500);
         });
 
         modelBuilder.Entity<Booking>(entity =>

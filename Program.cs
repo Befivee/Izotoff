@@ -54,6 +54,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddScoped<IExcursionService, ExcursionService>();
 builder.Services.AddScoped<IEventService, EventService>();
+builder.Services.AddScoped<INewsService, NewsService>();
 builder.Services.AddScoped<IPublicVisitCatalog, PublicVisitCatalog>();
 builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddHostedService<BookingCleanupService>();
@@ -198,6 +199,7 @@ else
 if (!botOnly)
 {
     Directory.CreateDirectory(Path.Combine(app.Environment.WebRootPath, "uploads", "events"));
+    Directory.CreateDirectory(Path.Combine(app.Environment.WebRootPath, "uploads", "news"));
     Directory.CreateDirectory(Path.Combine(app.Environment.WebRootPath, "uploads", "excursions"));
 }
 Directory.CreateDirectory(Path.Combine(app.Environment.ContentRootPath, "App_Data", "Backups"));

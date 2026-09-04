@@ -9,8 +9,11 @@ public static class TelegramKeyboards
     public static ReplyKeyboardMarkup MainMenu() => new([
         [
             new KeyboardButton(BotReplyLabels.Number(1)),
-            new KeyboardButton(BotReplyLabels.Number(2)),
-            new KeyboardButton(BotReplyLabels.Number(3))
+            new KeyboardButton(BotReplyLabels.Number(2))
+        ],
+        [
+            new KeyboardButton(BotReplyLabels.Number(3)),
+            new KeyboardButton(BotReplyLabels.Number(4))
         ]
     ])
     {
@@ -48,6 +51,22 @@ public static class TelegramKeyboards
         return Build(rows);
     }
 
+    public static ReplyKeyboardMarkup NewsPage(IReadOnlyList<News> news, int page, int totalPages)
+    {
+        var rows = new List<KeyboardButton[]>();
+        if (news.Count > 0)
+        {
+            rows.Add(news
+                .Select((_, i) => new KeyboardButton(BotReplyLabels.Number(i + 1)))
+                .ToArray());
+        }
+
+        rows.AddRange(NavigationRow(page, totalPages));
+        rows.Add([new KeyboardButton(BotReplyLabels.Add)]);
+        rows.Add([new KeyboardButton(BotReplyLabels.BackMain)]);
+        return Build(rows);
+    }
+
     public static ReplyKeyboardMarkup EventManagement() => Build([
         [
             new KeyboardButton(BotReplyLabels.Number(1)),
@@ -56,6 +75,24 @@ public static class TelegramKeyboards
             new KeyboardButton(BotReplyLabels.Number(4))
         ],
         [new KeyboardButton(BotReplyLabels.Back)]
+    ]);
+
+    public static ReplyKeyboardMarkup NewsManagement() => Build([
+        [
+            new KeyboardButton(BotReplyLabels.Number(1)),
+            new KeyboardButton(BotReplyLabels.Number(2)),
+            new KeyboardButton(BotReplyLabels.Number(3))
+        ],
+        [
+            new KeyboardButton(BotReplyLabels.Number(4)),
+            new KeyboardButton(BotReplyLabels.Number(5))
+        ],
+        [new KeyboardButton(BotReplyLabels.Back)]
+    ]);
+
+    public static ReplyKeyboardMarkup NewsPhotoStep() => Build([
+        [new KeyboardButton(BotReplyLabels.Done)],
+        [new KeyboardButton("-")]
     ]);
 
     public static ReplyKeyboardMarkup DeleteConfirmation() => Build([

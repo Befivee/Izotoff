@@ -21,16 +21,29 @@
                 <div class="news-gallery" data-news-gallery>
                     <div class="news-gallery__viewport">
                         <div class="news-gallery__track" data-news-gallery-track>
-                            @for (var j = 0; j < item.ImageTones.Count; j++)
+                            @for (var j = 0; j < item.Slides.Count; j++)
                             {
-                                <div class="news-gallery__slide news-gallery__slide--@item.ImageTones[j]@(j == 0 ? " is-active" : "")"
-                                     data-news-gallery-slide
-                                     role="img"
-                                     aria-label="Иллюстрация @(j + 1) — @item.Title"></div>
+                                var slide = item.Slides[j];
+                                var slideClass = j == 0 ? " is-active" : "";
+                                if (!string.IsNullOrWhiteSpace(slide.ImageUrl))
+                                {
+                                    <div class="news-gallery__slide news-gallery__slide--photo@(slideClass)"
+                                         style="background-image: url('@slide.ImageUrl')"
+                                         data-news-gallery-slide
+                                         role="img"
+                                         aria-label="Фото @(j + 1) — @item.Title"></div>
+                                }
+                                else
+                                {
+                                    <div class="news-gallery__slide news-gallery__slide--@(slide.ToneClass ?? "tone-forest")@(slideClass)"
+                                         data-news-gallery-slide
+                                         role="img"
+                                         aria-label="Иллюстрация @(j + 1) — @item.Title"></div>
+                                }
                             }
                         </div>
                     </div>
-                    @if (item.ImageTones.Count > 1)
+                    @if (item.Slides.Count > 1)
                     {
                         <div class="news-gallery__controls">
                             <button type="button"
@@ -40,7 +53,7 @@
                                 ‹
                             </button>
                             <div class="news-gallery__dots" data-news-gallery-dots aria-hidden="true">
-                                @for (var j = 0; j < item.ImageTones.Count; j++)
+                                @for (var j = 0; j < item.Slides.Count; j++)
                                 {
                                     <span class="news-gallery__dot@(j == 0 ? " is-active" : "")" data-news-gallery-dot></span>
                                 }

@@ -156,7 +156,10 @@ public class TelegramCommandHandler(
 
         if (message.Photo is { Length: > 0 })
         {
-            if (session.State is TelegramBotState.WaitingForEventImage or TelegramBotState.WaitingForNewImage)
+            if (session.State is TelegramBotState.WaitingForEventImage
+                or TelegramBotState.WaitingForNewImage
+                or TelegramBotState.WaitingForNewsImages
+                or TelegramBotState.WaitingForNewNewsImages)
             {
                 await WithManager(botClient, chatId, m => m.HandlePhotoMessageAsync(botClient, message, cancellationToken), cancellationToken);
                 return;
@@ -189,7 +192,7 @@ public class TelegramCommandHandler(
         if (session.Screen is BotScreen.Excursions or BotScreen.ExcursionDetail)
             session.Reset();
 
-        if ((int)session.State > (int)TelegramBotState.WaitingForNewImage)
+        if (!Enum.IsDefined(session.State))
             session.State = TelegramBotState.None;
     }
 

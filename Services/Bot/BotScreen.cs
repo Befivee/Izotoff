@@ -7,6 +7,8 @@ public enum BotScreen
     Bookings,
     Events,
     EventDetail,
+    News,
+    NewsDetail,
     Excursions,
     ExcursionDetail,
     Stats

@@ -5,7 +5,7 @@ using Izotoff.ViewModels;
 
 namespace Izotoff.Controllers;
 
-public class HomeController(IPublicVisitCatalog visits) : Controller
+public class HomeController(IPublicVisitCatalog visits, INewsService news) : Controller
 {
     public async Task<IActionResult> Index(CancellationToken cancellationToken)
     {
@@ -18,9 +18,10 @@ public class HomeController(IPublicVisitCatalog visits) : Controller
         ViewData["OgImage"] = null;
         ViewData["BodyClass"] = "page-home";
 
+        var latestNews = await news.GetLatestAsync(3, cancellationToken);
         var model = new HomeIndexViewModel
         {
-            FeaturedNews = HomeNewsCatalog.Featured,
+            FeaturedNews = latestNews.Select(item => item.ToHomeItem()).ToList(),
             UpcomingEvents = await visits.GetUpcomingAsync(3, cancellationToken)
         };
 

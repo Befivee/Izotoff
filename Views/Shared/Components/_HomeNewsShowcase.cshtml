@@ -8,7 +8,14 @@
         </header>
 
         <div class="news-showcase reveal" id="home-news-showcase">
-            <partial name="Components/_NewsArticleList" model="Model" />
+            @if (Model.Count == 0)
+            {
+                <p class="news-showcase__empty">Новостей пока нет — следите за обновлениями.</p>
+            }
+            else
+            {
+                <partial name="Components/_NewsArticleList" model="Model" />
+            }
 
             <div class="news-showcase__footer">
                 <a asp-controller="News" asp-action="Index" class="btn btn-primary btn-lg news-showcase__all">

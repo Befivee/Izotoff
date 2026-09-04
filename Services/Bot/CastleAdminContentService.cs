@@ -53,10 +53,12 @@ public class CastleAdminContentService(
         var eventsCount = await db.Events.CountAsync(cancellationToken);
         var bookingsCount = await db.Bookings.CountAsync(cancellationToken);
         var upcomingCount = await db.Events.CountAsync(e => e.EventDate >= DateTime.Today, cancellationToken);
+        var newsCount = await db.News.CountAsync(cancellationToken);
 
         return
             "📊 Статистика\n\n" +
             $"🚶 Посещений: {eventsCount} (предстоящих: {upcomingCount})\n" +
+            $"📰 Новостей: {newsCount}\n" +
             $"📋 Заявок: {bookingsCount}";
     }
 
@@ -95,6 +97,18 @@ public class CastleAdminContentService(
         return string.Join('\n', lines);
     }
 
+    public static string BuildNumberedNewsIntro(IReadOnlyList<News> news, int page)
+    {
+        var paged = BotListPaging.GetPage(news, page);
+        var totalPages = BotListPaging.TotalPages(news.Count);
+        var lines = new List<string> { $"📰 Новости (стр. {page + 1}/{totalPages}):" };
+
+        for (var i = 0; i < paged.Count; i++)
+            lines.Add($"{i + 1}. {paged[i].Title}");
+
+        return string.Join('\n', lines);
+    }
+
     public static string BuildNumberedExcursionsIntro(IReadOnlyList<Excursion> items, int page)
     {
         var paged = BotListPaging.GetPage(items, page);
@@ -111,6 +125,18 @@ public class CastleAdminContentService(
         $"🚶 {entity.Title}\n\n" +
         $"📅 {entity.EventDate.ToString("d MMMM yyyy", RuCulture)}\n\n" +
         $"{entity.Description}";
+
+    public string BuildNewsDetailsText(News entity)
+    {
+        var photoCount = entity.GetImageTokens().Count(token => !token.StartsWith(News.TonePrefix, StringComparison.OrdinalIgnoreCase));
+        var photos = photoCount == 0 ? "стандартный фон" : $"{photoCount} фото";
+
+        return
+            $"📰 {entity.Title}\n\n" +
+            $"📅 {entity.PublishedAt.ToString("d MMMM yyyy", RuCulture)}\n" +
+            $"🖼 {photos}\n\n" +
+            $"{entity.Summary}";
+    }
 
     public string BuildExcursionDetailsText(Excursion entity) =>
         $"🚶 {entity.Title}\n\n" +

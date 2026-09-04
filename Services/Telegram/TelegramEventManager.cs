@@ -10,6 +10,7 @@ namespace Izotoff.Services.Telegram;
 
 public partial class TelegramEventManager(
     IEventService events,
+    INewsService news,
     IBookingService bookings,
     IEventImageService images,
     CastleAdminContentService content,
@@ -30,7 +31,8 @@ public partial class TelegramEventManager(
             "🍇 Панель управления IZOTOFF\n\n" +
             "1. 📋 Заявки\n" +
             "2. 🚶 Посещения\n" +
-            "3. 📊 Статистика",
+            "3. 📰 Новости\n" +
+            "4. 📊 Статистика",
             replyMarkup: TelegramKeyboards.MainMenu(),
             cancellationToken: cancellationToken);
     }
@@ -209,9 +211,6 @@ public partial class TelegramEventManager(
         var text = message.Text?.Trim() ?? string.Empty;
         var session = stateService.GetOrCreate(chatId);
 
-        if ((int)session.State > (int)TelegramBotState.WaitingForNewImage)
-            session.State = TelegramBotState.None;
-
         if (session.State == TelegramBotState.None)
         {
             await HandleMenuTextAsync(bot, chatId, text, cancellationToken);
@@ -241,6 +240,28 @@ public partial class TelegramEventManager(
                 case TelegramBotState.WaitingForNewImage:
                     await HandleImageFallbackAsync(bot, chatId, text, cancellationToken);
                     break;
+                case TelegramBotState.WaitingForNewsTitle:
+                    await HandleNewsWizardTitleAsync(bot, chatId, text, cancellationToken);
+                    break;
+                case TelegramBotState.WaitingForNewsDescription:
+                    await HandleNewsWizardDescriptionAsync(bot, chatId, text, cancellationToken);
+                    break;
+                case TelegramBotState.WaitingForNewsDate:
+                    await HandleNewsWizardDateAsync(bot, chatId, text, cancellationToken);
+                    break;
+                case TelegramBotState.WaitingForNewNewsTitle:
+                    await HandleNewsEditTitleAsync(bot, chatId, text, cancellationToken);
+                    break;
+                case TelegramBotState.WaitingForNewNewsDescription:
+                    await HandleNewsEditDescriptionAsync(bot, chatId, text, cancellationToken);
+                    break;
+                case TelegramBotState.WaitingForNewNewsDate:
+                    await HandleNewsEditDateAsync(bot, chatId, text, cancellationToken);
+                    break;
+                case TelegramBotState.WaitingForNewsImages:
+                case TelegramBotState.WaitingForNewNewsImages:
+                    await HandleNewsImageTextAsync(bot, chatId, text, cancellationToken);
+                    break;
                 default:
                     session.Reset();
                     await SendMainMenuAsync(bot, chatId, cancellationToken);
@@ -262,7 +283,11 @@ public partial class TelegramEventManager(
         var chatId = message.Chat.Id;
         var session = stateService.GetOrCreate(chatId);
 
-        if (session.State is not (TelegramBotState.WaitingForEventImage or TelegramBotState.WaitingForNewImage))
+        if (session.State is not (
+            TelegramBotState.WaitingForEventImage or
+            TelegramBotState.WaitingForNewImage or
+            TelegramBotState.WaitingForNewsImages or
+            TelegramBotState.WaitingForNewNewsImages))
         {
             await bot.SendMessage(chatId, "Сейчас изображение не ожидается. Используйте /start.", cancellationToken: cancellationToken);
             return;
@@ -270,6 +295,12 @@ public partial class TelegramEventManager(
 
         try
         {
+            if (session.State is TelegramBotState.WaitingForNewsImages or TelegramBotState.WaitingForNewNewsImages)
+            {
+                await HandleNewsPhotoAsync(bot, chatId, message, cancellationToken);
+                return;
+            }
+
             if (session.State == TelegramBotState.WaitingForEventImage)
                 await CompleteAddWizardAsync(bot, chatId, message, cancellationToken);
             else
@@ -480,7 +511,8 @@ public partial class TelegramEventManager(
     private async Task<string> DownloadAndSavePhotoAsync(
         ITelegramBotClient bot,
         Message message,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken,
+        string uploadSubfolder = "events")
     {
         var photo = message.Photo?.MaxBy(p => p.FileSize);
         if (photo is null)
@@ -498,7 +530,7 @@ public partial class TelegramEventManager(
         if (string.IsNullOrEmpty(extension))
             extension = ".jpg";
 
-        return await images.SaveFromStreamAsync(stream, extension, cancellationToken: cancellationToken);
+        return await images.SaveFromStreamAsync(stream, extension, uploadSubfolder, cancellationToken);
     }
 
     private async Task<bool> EnsureEventExists(
