@@ -56,6 +56,7 @@ builder.Services.AddScoped<IExcursionService, ExcursionService>();
 builder.Services.AddScoped<IEventService, EventService>();
 builder.Services.AddScoped<INewsService, NewsService>();
 builder.Services.AddScoped<IPublicVisitCatalog, PublicVisitCatalog>();
+builder.Services.AddScoped<IPublicNewsCatalog, PublicNewsCatalog>();
 builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddHostedService<BookingCleanupService>();
 builder.Services.AddScoped<IEventImageService, EventImageService>();
@@ -196,12 +197,10 @@ else
         vkOptions.ApiVersion);
 }
 
+Directory.CreateDirectory(Path.Combine(app.Environment.WebRootPath, "uploads", "events"));
+Directory.CreateDirectory(Path.Combine(app.Environment.WebRootPath, "uploads", "news"));
 if (!botOnly)
-{
-    Directory.CreateDirectory(Path.Combine(app.Environment.WebRootPath, "uploads", "events"));
-    Directory.CreateDirectory(Path.Combine(app.Environment.WebRootPath, "uploads", "news"));
     Directory.CreateDirectory(Path.Combine(app.Environment.WebRootPath, "uploads", "excursions"));
-}
 Directory.CreateDirectory(Path.Combine(app.Environment.ContentRootPath, "App_Data", "Backups"));
 
 try
@@ -318,6 +317,41 @@ if (telegramOptions.AcceptRelay)
 
         var list = await events.GetAllAsync();
         return Results.Ok(list.Select(VisitRelayDto.From));
+    });
+
+    app.MapGet("/internal/news", async (
+        HttpRequest request,
+        INewsService news,
+        IOptions<TelegramBotOptions> botOptions) =>
+    {
+        var expected = botOptions.Value.RelaySecret?.Trim() ?? "";
+        var provided = request.Headers["X-Relay-Secret"].ToString();
+        if (expected.Length == 0 || !CryptographicEquals(expected, provided))
+            return Results.Unauthorized();
+
+        var list = await news.GetAllAsync();
+        return Results.Ok(list.Select(NewsRelayDto.From));
+    });
+
+    app.MapGet("/internal/news/files/{fileName}", (
+        string fileName,
+        HttpRequest request,
+        IWebHostEnvironment env,
+        IOptions<TelegramBotOptions> botOptions) =>
+    {
+        var expected = botOptions.Value.RelaySecret?.Trim() ?? "";
+        var provided = request.Headers["X-Relay-Secret"].ToString();
+        if (expected.Length == 0 || !CryptographicEquals(expected, provided))
+            return Results.Unauthorized();
+
+        if (!NewsMediaPath.IsSafeFileName(fileName))
+            return Results.NotFound();
+
+        var physicalPath = Path.Combine(env.WebRootPath, "uploads", "news", fileName);
+        if (!System.IO.File.Exists(physicalPath))
+            return Results.NotFound();
+
+        return Results.File(physicalPath, NewsMediaPath.ContentType(fileName));
     });
 }
 

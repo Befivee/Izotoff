@@ -5,7 +5,7 @@ using Izotoff.ViewModels;
 
 namespace Izotoff.Controllers;
 
-public class HomeController(IPublicVisitCatalog visits, INewsService news) : Controller
+public class HomeController(IPublicVisitCatalog visits, IPublicNewsCatalog news) : Controller
 {
     public async Task<IActionResult> Index(CancellationToken cancellationToken)
     {
