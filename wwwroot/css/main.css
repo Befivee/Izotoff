@@ -455,6 +455,10 @@ main {
   right: 0;
   bottom: 0;
   background-color: #2d4a3e;
+  background-image: url("/images/hero/home-hero.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
   will-change: background-position;
 }
 .hero__overlay {
@@ -579,18 +583,33 @@ main {
 .page-hero__bg--events,
 .page-hero__bg--excursions {
   background-color: #1c3b2e;
+  background-image: url("/images/excursions/hero.jpg");
+  background-size: cover;
+  background-position: center;
+}
+.page-hero__bg--events {
+  background-image: url("/images/events/hero.jpg");
 }
 .page-hero__bg--about {
   background-color: #3d5a4a;
+  background-image: url("/images/about/hero.jpg");
+  background-size: cover;
+  background-position: center 40%;
 }
 .page-hero__bg--directions {
   background-color: #1e3329;
 }
 .page-hero__bg--contacts {
   background-color: #2a2a2e;
+  background-image: url("/images/contacts/hero.jpg");
+  background-size: cover;
+  background-position: center;
 }
 .page-hero__bg--news {
   background-color: #4a6741;
+  background-image: url("/images/news/hero.jpg");
+  background-size: cover;
+  background-position: center;
 }
 .page-hero__bg--rental {
   background-color: #6b3a4a;
@@ -927,6 +946,58 @@ main {
   }
 }
 
+.partner-banner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 22rem;
+  padding: 5rem 1.5rem;
+  text-align: center;
+  color: #fff;
+  overflow: hidden;
+}
+.partner-banner--waldau {
+  background: linear-gradient(135deg, #3a141c 0%, #5c1f2e 48%, #1e3329 100%);
+}
+.partner-banner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(20, 14, 12, 0.15), rgba(20, 14, 12, 0.45));
+}
+.partner-banner__inner {
+  position: relative;
+  z-index: 1;
+  max-width: 44rem;
+}
+.partner-banner__eyebrow {
+  margin: 0 0 0.75rem;
+  font-size: 0.8125rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+.partner-banner__title {
+  color: #fff;
+  margin: 0 0 1rem;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.35);
+}
+.partner-banner__lead {
+  margin: 0 0 2rem;
+  font-size: 1.125rem;
+  opacity: 0.92;
+}
+.partner-banner .btn-primary {
+  background: #fff;
+  color: #5c1f2e;
+  border-color: #fff;
+}
+.partner-banner .btn-primary:hover {
+  background: #f8f6f3;
+  border-color: #f8f6f3;
+}
+
 .why-grid {
   display: grid;
   gap: 1.5rem;
@@ -1238,6 +1309,9 @@ main {
 .event-card__image {
   height: 220px;
   background-color: #1c3b2e;
+  background-image: url("/images/events/hero.jpg");
+  background-size: cover;
+  background-position: center;
 }
 .event-card__body {
   display: flex;
@@ -1258,7 +1332,9 @@ main {
   border-color: #1c3b2e;
 }
 .event-card__image--pinned {
-  background-image: linear-gradient(160deg, #2a4a3a 0%, #10241c 100%);
+  background-image: url("/images/excursions/hero.jpg");
+  background-size: cover;
+  background-position: center;
 }
 .event-card__date {
   display: block;
@@ -1643,6 +1719,14 @@ main {
   min-height: 320px;
   border-radius: 20px;
   background-color: #3d5a4a;
+  background-size: cover;
+  background-position: center;
+}
+.about-split__image--story {
+  background-image: url("/images/about/story.jpg");
+}
+.about-split__image--family {
+  background-image: url("/images/about/family.jpg");
 }
 .placeholder-block {
   min-height: 280px;
@@ -1674,10 +1758,32 @@ main {
 }
 
 .about-feature {
-  padding: 2.5rem;
+  padding: 0 0 2.5rem;
+  overflow: hidden;
   background: #ffffff;
   border-radius: 12px;
   border: 1px solid rgba(42, 42, 46, 0.1);
+}
+.about-feature__photo {
+  height: 200px;
+  margin-bottom: 1.5rem;
+  background-size: cover;
+  background-position: center;
+  background-color: #3d5a4a;
+}
+.about-feature__photo--cheese {
+  background-image: url("/images/products/cheese.jpg");
+}
+.about-feature__photo--cider {
+  background-image: url("/images/products/cider.jpg");
+}
+.about-feature__photo--tasting {
+  background-image: url("/images/products/tasting.jpg");
+}
+.about-feature h3,
+.about-feature p {
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
 }
 .about-feature h3 {
   color: #2d4a3e;
