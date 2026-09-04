@@ -22,7 +22,6 @@ public class IndexNowPingerService(
     [
         "/",
         "/News",
-        "/Rental",
         "/Excursion",
         "/Event",
         "/About",

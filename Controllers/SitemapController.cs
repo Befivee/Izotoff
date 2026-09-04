@@ -20,7 +20,6 @@ public class SitemapController(IOptions<SiteSettings> siteSettings) : Controller
         {
             CreateUrl(ns, baseUrl, "/", "daily", "1.0", lastMod),
             CreateUrl(ns, baseUrl, "/News", "weekly", "0.9", lastMod),
-            CreateUrl(ns, baseUrl, "/Rental", "monthly", "0.8", lastMod),
             CreateUrl(ns, baseUrl, "/Excursion", "weekly", "0.9", lastMod),
             CreateUrl(ns, baseUrl, "/About", "monthly", "0.8", lastMod),
             CreateUrl(ns, baseUrl, "/Contacts", "monthly", "0.8", lastMod),
