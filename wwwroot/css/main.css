@@ -1262,9 +1262,10 @@ main {
 .event-card__image {
   height: 220px;
   background-color: #1c3b2e;
-  background-image: url("/images/events/hero.jpg");
+  background-image: var(--card-bg, url("/images/events/hero.jpg"));
   background-size: cover;
   background-position: center;
+  background-repeat: no-repeat;
 }
 .event-card__body {
   display: flex;
