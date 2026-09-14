@@ -28,60 +28,20 @@
 .site-logo {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
   text-decoration: none;
   color: $color-graphite;
   transition: color $transition-base;
 
   &:hover { color: $color-burgundy; }
 
-  &__icon {
-    font-size: 1.5rem;
-    color: $color-burgundy;
-    line-height: 1;
-  }
-
-  &__mark {
-    display: block;
-    width: 48px;
-    height: 48px;
-    border-radius: 8px;
-    background-color: $color-burgundy;
-    flex-shrink: 0;
-  }
-
-  &__img {
-    display: block;
-    width: 40px;
-    height: 48px;
-    object-fit: contain;
-    flex-shrink: 0;
-    border-radius: 4px;
-    background: #fff;
-  }
-
-  &__text { display: flex; flex-direction: column; line-height: 1.2; }
   &__name {
     font-family: $font-display;
-    font-size: 1.25rem;
+    font-size: 1.5rem;
     font-weight: 700;
-    letter-spacing: 0.02em;
-  }
-  &__sub {
-    font-size: 0.6875rem;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: $color-text-muted;
+    letter-spacing: 0.08em;
   }
 
   &--footer .site-logo__name { color: #fff; }
-  &--footer .site-logo__sub { color: rgba(#fff, 0.6); }
-  &--footer .site-logo__icon { color: rgba(#fff, 0.9); }
-
-  &--footer .site-logo__img {
-    background: #fff;
-    padding: 2px;
-  }
 }
 
 .site-nav {
@@ -180,14 +140,6 @@
 
   .site-logo {
     color: #fff;
-  }
-
-  .site-logo__sub {
-    color: rgba(#fff, 0.75);
-  }
-
-  .site-logo__icon {
-    color: rgba(#fff, 0.95);
   }
 
   .site-logo:hover {

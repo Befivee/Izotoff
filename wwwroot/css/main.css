@@ -150,56 +150,19 @@ main {
 .site-logo:hover {
   color: #1c3b2e;
 }
-.site-logo__icon {
-  font-size: 1.5rem;
-  color: #1c3b2e;
-  line-height: 1;
-}
-.site-logo__mark {
-  display: block;
-  width: 48px;
-  height: 48px;
-  border-radius: 8px;
-  background-color: #1c3b2e;
-  flex-shrink: 0;
-}
-.site-logo__img {
-  display: block;
-  width: 48px;
-  height: 48px;
-  object-fit: contain;
-  object-position: center;
-  flex-shrink: 0;
-}
-.site-logo__text {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.2;
-}
 .site-logo__name {
   font-family: "Cormorant Garamond", Georgia, serif;
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   font-weight: 700;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.08em;
 }
+.site-logo__mark,
+.site-logo__img,
 .site-logo__sub {
-  font-size: 0.6875rem;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: #5c5c62;
+  display: none;
 }
 .site-logo--footer .site-logo__name {
   color: #fff;
-}
-.site-logo--footer .site-logo__sub {
-  color: rgba(255, 255, 255, 0.6);
-}
-.site-logo--footer .site-logo__icon {
-  color: rgba(255, 255, 255, 0.9);
-}
-.site-logo--footer .site-logo__img {
-  filter: brightness(0) invert(1);
-  opacity: 0.95;
 }
 
 @media (max-width: 991px) {
@@ -318,19 +281,6 @@ main {
 }
 .page-home .site-header:not(.is-scrolled) .site-logo {
   color: #fff;
-}
-.page-home .site-header:not(.is-scrolled) .site-logo__sub {
-  color: rgba(255, 255, 255, 0.75);
-}
-.page-home .site-header:not(.is-scrolled) .site-logo__icon {
-  color: rgba(255, 255, 255, 0.95);
-}
-.page-home .site-header:not(.is-scrolled) .site-logo__mark {
-  background-color: rgba(255, 255, 255, 0.92);
-}
-.page-home .site-header:not(.is-scrolled) .site-logo__img {
-  filter: brightness(0) invert(1);
-  opacity: 0.95;
 }
 .page-home .site-header:not(.is-scrolled) .site-logo:hover {
   color: rgba(255, 255, 255, 0.9);
@@ -958,13 +908,16 @@ main {
   overflow: hidden;
 }
 .partner-banner--waldau {
-  background: linear-gradient(135deg, #3a141c 0%, #5c1f2e 48%, #1e3329 100%);
+  background-color: #3a141c;
+  background-image: url("/images/partners/waldau.webp");
+  background-size: cover;
+  background-position: center;
 }
 .partner-banner::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, rgba(20, 14, 12, 0.15), rgba(20, 14, 12, 0.45));
+  background: linear-gradient(to bottom, rgba(20, 14, 12, 0.28), rgba(20, 14, 12, 0.62));
 }
 .partner-banner__inner {
   position: relative;
