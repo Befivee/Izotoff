@@ -353,6 +353,27 @@ if (telegramOptions.AcceptRelay)
 
         return Results.File(physicalPath, NewsMediaPath.ContentType(fileName));
     });
+
+    app.MapGet("/internal/visits/files/{fileName}", (
+        string fileName,
+        HttpRequest request,
+        IWebHostEnvironment env,
+        IOptions<TelegramBotOptions> botOptions) =>
+    {
+        var expected = botOptions.Value.RelaySecret?.Trim() ?? "";
+        var provided = request.Headers["X-Relay-Secret"].ToString();
+        if (expected.Length == 0 || !CryptographicEquals(expected, provided))
+            return Results.Unauthorized();
+
+        if (!NewsMediaPath.IsSafeFileName(fileName))
+            return Results.NotFound();
+
+        var physicalPath = Path.Combine(env.WebRootPath, "uploads", "events", fileName);
+        if (!System.IO.File.Exists(physicalPath))
+            return Results.NotFound();
+
+        return Results.File(physicalPath, NewsMediaPath.ContentType(fileName));
+    });
 }
 
 if (!botOnly)

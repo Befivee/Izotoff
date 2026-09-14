@@ -1,7 +1,7 @@
 @model Event
 
 <article class="event-card reveal">
-    <div class="event-card__image" aria-hidden="true"></div>
+    <div class="event-card__image" style="--card-bg: url('@Model.DisplayImagePath')" aria-hidden="true"></div>
     <div class="event-card__body">
         <time class="event-card__date" datetime="@Model.EventDate.ToString("yyyy-MM-dd")">
             @Model.EventDate.ToString("d MMMM yyyy", new System.Globalization.CultureInfo("ru-RU"))

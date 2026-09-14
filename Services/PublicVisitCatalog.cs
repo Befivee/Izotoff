@@ -87,12 +87,16 @@ public sealed class VisitRelayDto
     [JsonPropertyName("eventDate")]
     public DateTime EventDate { get; set; }
 
+    [JsonPropertyName("imagePath")]
+    public string ImagePath { get; set; } = string.Empty;
+
     public static VisitRelayDto From(Event entity) => new()
     {
         Id = entity.Id,
         Title = entity.Title,
         Description = entity.Description,
-        EventDate = entity.EventDate
+        EventDate = entity.EventDate,
+        ImagePath = entity.ImagePath
     };
 
     public Event ToEvent() => new()
@@ -100,6 +104,7 @@ public sealed class VisitRelayDto
         Id = Id,
         Title = Title,
         Description = Description,
-        EventDate = EventDate
+        EventDate = EventDate,
+        ImagePath = EventMediaPath.ToSiteProxyToken(ImagePath)
     };
 }
