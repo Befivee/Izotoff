@@ -2,7 +2,7 @@
 
 <article class="event-card reveal">
     <div class="event-card__image"
-         style="@(string.IsNullOrWhiteSpace(Model.DisplayImagePath) ? null : $"--card-bg: url('{Model.DisplayImagePath}'); background-image: url('{Model.DisplayImagePath}')")"
+         style="@(string.IsNullOrWhiteSpace(Model.DisplayImagePath) ? null : $"--card-bg: url('{Model.DisplayImagePath}')")"
          aria-hidden="true"></div>
     <div class="event-card__body">
         <time class="event-card__date" datetime="@Model.EventDate.ToString("yyyy-MM-dd")">

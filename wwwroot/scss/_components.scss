@@ -356,7 +356,7 @@
   &__image {
     height: 220px;
     @include image-cover;
-    background-image: var(--card-bg, url("/images/events/hero.jpg"));
+    background-image: var(--card-bg, none), linear-gradient(160deg, $color-burgundy 0%, $color-green-dark 100%);
   }
 
   &__badge {
