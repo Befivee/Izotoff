@@ -27,7 +27,7 @@
           "name": {{JsonSerializer.Serialize(SiteInfo.OperatorName)}},
           "alternateName": ["IZOTOFF", "IZOTOFF CHEESE"],
           "url": "{{baseUrl}}",
-          "telephone": "{{SiteInfo.PhoneTel}}",
+          "telephone": ["{{SiteInfo.PhoneTel}}", "{{SiteInfo.Phone2Tel}}"],
           "sameAs": ["{{SiteInfo.VkUrl}}", "{{SiteInfo.TelegramUrl}}"]
         },
         {
@@ -37,11 +37,12 @@
           "alternateName": ["IZOTOFF CHEESE", "ферма Изотовых"],
           "description": {{JsonSerializer.Serialize(SiteInfo.Tagline)}},
           "url": "{{baseUrl}}",
-          "telephone": "{{SiteInfo.PhoneTel}}",
+          "telephone": ["{{SiteInfo.PhoneTel}}", "{{SiteInfo.Phone2Tel}}"],
           "address": {
             "@type": "PostalAddress",
-            "addressLocality": "Зеленоградский район",
-            "addressRegion": "Калининградская область",
+            "streetAddress": {{JsonSerializer.Serialize(SiteInfo.Address)}},
+            "addressLocality": "посёлок Алексеевка",
+            "addressRegion": "Калининградская область, Зеленоградский район",
             "addressCountry": "RU"
           },
           "geo": {

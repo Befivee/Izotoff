@@ -16,12 +16,14 @@ public static class SiteInfo
     public const string HomePageTitle = "IZOTOFF — официальный сайт";
     public const string BrowserTitle = HomePageTitle;
     public const string Tagline = "Первый и самый большой виноградник Калининградской области";
-    public const string Location = "Калининградская область, Зеленоградский район";
-    public const string Address = "Калининградская обл., Зеленоградский район (точный адрес — УТОЧНЯЕТСЯ)";
-    public const string Phone = "ТЕЛЕФОН УТОЧНЯЕТСЯ";
-    public const string PhoneTel = "+70000000000";
-    public const string Phone2 = "";
-    public const string Phone2Tel = "";
+    public const string Location = "Калининградская область, Зеленоградский район, пос. Алексеевка";
+    public const string Address = "Калининградская обл., Зеленоградский район, пос. Алексеевка";
+    public const string PhoneName = "Елизавета";
+    public const string Phone = "+7 (962) 266-64-69";
+    public const string PhoneTel = "+79622666469";
+    public const string Phone2Name = "Александр";
+    public const string Phone2 = "+7 (905) 246-09-10";
+    public const string Phone2Tel = "+79052460910";
     public const string VkUrl = "https://vk.com/TODO";
     public const string VkLabel = "ВКонтакте — УТОЧНЯЕТСЯ";
     public const string TelegramUrl = "https://t.me/TODO";
@@ -30,9 +32,9 @@ public static class SiteInfo
     public const string TicketPrice = "от 500 ₽";
     public const string BusRoute = "На автомобиле";
     public const string DistanceFromKg = "~30 мин от Калининграда";
-    public const string TravelTime = "Эко-ферма в Зеленоградском районе";
-    public const double Latitude = 54.962;
-    public const double Longitude = 20.476;
+    public const string TravelTime = "пос. Алексеевка, Зеленоградский район";
+    public const double Latitude = 54.8361;
+    public const double Longitude = 20.3461;
 
     public static string GetDocumentTitle(string? pageTitle, string? metaTitle) =>
         !string.IsNullOrWhiteSpace(metaTitle)

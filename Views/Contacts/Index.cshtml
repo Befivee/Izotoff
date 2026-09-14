@@ -15,16 +15,13 @@
         <div class="contacts-grid">
             <div class="contacts-info reveal">
                 <div class="contact-block">
-                    <h2>Телефон</h2>
+                    <h2>@SiteInfo.PhoneName</h2>
                     <a href="tel:@SiteInfo.PhoneTel" class="contact-block__value">@SiteInfo.Phone</a>
                 </div>
-                @if (!string.IsNullOrWhiteSpace(SiteInfo.Phone2))
-                {
-                    <div class="contact-block">
-                        <h2>Дополнительный телефон</h2>
-                        <a href="tel:@SiteInfo.Phone2Tel" class="contact-block__value">@SiteInfo.Phone2</a>
-                    </div>
-                }
+                <div class="contact-block">
+                    <h2>@SiteInfo.Phone2Name</h2>
+                    <a href="tel:@SiteInfo.Phone2Tel" class="contact-block__value">@SiteInfo.Phone2</a>
+                </div>
                 <div class="contact-block">
                     <h2>Адрес</h2>
                     <p class="contact-block__value">@SiteInfo.Address</p>
@@ -57,7 +54,7 @@
                     <span class="route-card__icon" aria-hidden="true">🚗</span>
                     <div>
                         <h2>На автомобиле</h2>
-                        <p>Эко-ферма IZOTOFF находится примерно в получасе езды от Калининграда, в Зеленоградском районе. Точный адрес и указатели — УТОЧНЯЮТСЯ.</p>
+                        <p>Эко-ферма IZOTOFF находится примерно в получасе езды от Калининграда, в Зеленоградском районе, посёлок Алексеевка.</p>
                         <p class="route-card__meta">@SiteInfo.DistanceFromKg · парковка на территории (уточняется)</p>
                         <div class="route-card__actions">
                             <a href="@SiteInfo.YandexMapsUrl" target="_blank" rel="noopener" class="btn btn-primary btn-sm">Яндекс Карты</a>
@@ -87,7 +84,7 @@
         <div class="directions-entrance reveal">
             <div class="directions-entrance__text">
                 <h2>Въезд на ферму</h2>
-                <p>Ориентиры для гостей и схема въезда будут добавлены после уточнения адреса у заказчика. Приезжайте за 10–15 минут до начала программы.</p>
+                <p>Ориентир — посёлок Алексеевка в Зеленоградском районе. Приезжайте за 10–15 минут до начала программы.</p>
                 <p class="directions-entrance__hint">Даты, время и количество гостей можно уточнить в комментарии к заявке — мы перезвоним и всё согласуем.</p>
                 <a href="@SiteInfo.YandexMapsUrl" target="_blank" rel="noopener" class="btn btn-primary">Открыть маршрут</a>
             </div>

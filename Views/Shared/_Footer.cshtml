@@ -23,11 +23,8 @@
             <div class="site-footer__contacts">
                 <h3 class="site-footer__heading">Контакты</h3>
                 <ul>
-                    <li><a href="tel:@SiteInfo.PhoneTel">@SiteInfo.Phone</a></li>
-                    @if (!string.IsNullOrWhiteSpace(SiteInfo.Phone2))
-                    {
-                        <li><a href="tel:@SiteInfo.Phone2Tel">@SiteInfo.Phone2</a></li>
-                    }
+                    <li><a href="tel:@SiteInfo.PhoneTel">@SiteInfo.PhoneName, @SiteInfo.Phone</a></li>
+                    <li><a href="tel:@SiteInfo.Phone2Tel">@SiteInfo.Phone2Name, @SiteInfo.Phone2</a></li>
                     <li>@SiteInfo.WorkingHours</li>
                 </ul>
                 <partial name="_SocialLinks" />
