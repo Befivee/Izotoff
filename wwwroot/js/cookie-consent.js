@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  var STORAGE_KEY = 'izotoff_cookie_consent_v1';
+  var STORAGE_KEY = 'izotoff_cookie_consent_v2';
   var banner = document.getElementById('cookie-consent');
   if (!banner) return;
 
@@ -27,21 +27,31 @@
     if (!id || window.__izotoffYmLoaded) return;
     window.__izotoffYmLoaded = true;
 
-    window.ym = window.ym || function () {
-      (window.ym.a = window.ym.a || []).push(arguments);
-    };
-    window.ym.l = Date.now();
+    var numericId = parseInt(id, 10);
+    var tagUrl = 'https://mc.yandex.ru/metrika/tag.js?id=' + numericId;
 
-    var script = document.createElement('script');
-    script.async = true;
-    script.src = 'https://mc.yandex.ru/metrika/tag.js';
-    document.head.appendChild(script);
+    (function (m, e, t, r, i, k, a) {
+      m[i] = m[i] || function () { (m[i].a = m[i].a || []).push(arguments); };
+      m[i].l = 1 * new Date();
+      for (var j = 0; j < document.scripts.length; j++) {
+        if (document.scripts[j].src === r) { return; }
+      }
+      k = e.createElement(t);
+      a = e.getElementsByTagName(t)[0];
+      k.async = 1;
+      k.src = r;
+      a.parentNode.insertBefore(k, a);
+    })(window, document, 'script', tagUrl, 'ym');
 
-    window.ym(parseInt(id, 10), 'init', {
+    window.ym(numericId, 'init', {
+      ssr: true,
+      webvisor: true,
       clickmap: true,
-      trackLinks: true,
+      ecommerce: 'dataLayer',
+      referrer: document.referrer,
+      url: location.href,
       accurateTrackBounce: true,
-      webvisor: false
+      trackLinks: true
     });
   }
 

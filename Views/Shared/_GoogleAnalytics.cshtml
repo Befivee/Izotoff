@@ -11,7 +11,7 @@
         (function () {
             var analyticsGranted = false;
             try {
-                var saved = localStorage.getItem('izotoff_cookie_consent_v1');
+                var saved = localStorage.getItem('izotoff_cookie_consent_v2');
                 if (saved) {
                     analyticsGranted = JSON.parse(saved).analytics === true;
                 }
