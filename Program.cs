@@ -268,7 +268,8 @@ if (telegramOptions.AcceptRelay)
 {
     app.MapPost("/internal/telegram/booking", async (
         HttpRequest request,
-        ITelegramNotificationService telegram,
+        IBookingService bookings,
+        IBookingNotificationService notifications,
         IOptions<TelegramBotOptions> botOptions) =>
     {
         var expected = botOptions.Value.RelaySecret?.Trim() ?? "";
@@ -280,8 +281,9 @@ if (telegramOptions.AcceptRelay)
         if (payload is null)
             return Results.BadRequest();
 
-        var sent = await telegram.NotifyNewBookingAsync(payload.ToBooking());
-        return sent ? Results.Ok() : Results.StatusCode(502);
+        var booking = await bookings.CreateAsync(payload.ToBooking());
+        notifications.ScheduleNewBookingNotification(booking);
+        return Results.Ok();
     });
 
     app.MapPost("/internal/waldau/telegram/booking", async (

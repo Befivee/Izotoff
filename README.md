@@ -68,13 +68,34 @@ Secrets репозитория: `SSH_KEY`, `SSH_HOST`, `SSH_USER`.
 
 ### Telegram-бот (как у Вальдау, свой токен)
 
-Уже в коде: заявки, мероприятия, статистика. На сервере включается через `/etc/izotoff.env`:
+Уже в коде: заявки, мероприятия (посещения), новости. На сервере включается через `/etc/izotoff.env`.
+
+**Сайт (Timeweb)** — без long poll; заявки уходят на Hostkey, каталоги читаются с бота:
+
+```
+Telegram__DisablePolling=true
+Telegram__RelayUrl=https://<tunnel>/internal/telegram/booking
+Telegram__RelaySecret=...
+```
+
+**Бот (Hostkey)** — `Telegram__BotOnly=true`:
 
 ```
 Telegram__BotToken=...
 Telegram__AdminChatId=...
 Telegram__SecondAdminChatId=...
+Telegram__BotOnly=true
+Telegram__AcceptRelay=true
+Telegram__RelaySecret=...
 ```
 
-Затем `systemctl restart izotoff`. Публикация новостей через бота — следующий этап.
+Синхронизация:
+
+| Направление | Что |
+|-------------|-----|
+| Сайт → бот | заявки (`POST /internal/telegram/booking`) — сохраняются в БД бота и уходят в Telegram/VK |
+| Бот → сайт | посещения + фото (`GET /internal/visits`), новости + фото (`GET /internal/news`) |
+
+Скрипт: `deploy/hostkey-bot-only.sh`. Затем `systemctl restart izotoff`.
+
 - Финальные тексты политик и команды
