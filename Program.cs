@@ -307,6 +307,55 @@ if (telegramOptions.AcceptRelay)
         return Results.StatusCode((int)response.StatusCode);
     });
 
+    app.MapGet("/internal/waldau/events", async (
+        HttpRequest request,
+        IHttpClientFactory httpClientFactory,
+        IOptions<TelegramBotOptions> botOptions) =>
+    {
+        var expected = botOptions.Value.RelaySecret?.Trim() ?? "";
+        var provided = request.Headers["X-Relay-Secret"].ToString();
+        if (expected.Length == 0 || !CryptographicEquals(expected, provided))
+            return Results.Unauthorized();
+
+        var client = httpClientFactory.CreateClient("waldau_local_relay");
+        using var forward = new HttpRequestMessage(HttpMethod.Get, "internal/events");
+        forward.Headers.TryAddWithoutValidation("X-Relay-Secret", provided);
+
+        using var response = await client.SendAsync(forward);
+        var body = await response.Content.ReadAsStringAsync();
+        return Results.Content(body, response.Content.Headers.ContentType?.ToString() ?? "application/json", statusCode: (int)response.StatusCode);
+    });
+
+    app.MapGet("/internal/waldau/events/files/{fileName}", async (
+        string fileName,
+        HttpRequest request,
+        IHttpClientFactory httpClientFactory,
+        IOptions<TelegramBotOptions> botOptions) =>
+    {
+        var expected = botOptions.Value.RelaySecret?.Trim() ?? "";
+        var provided = request.Headers["X-Relay-Secret"].ToString();
+        if (expected.Length == 0 || !CryptographicEquals(expected, provided))
+            return Results.Unauthorized();
+
+        if (!NewsMediaPath.IsSafeFileName(fileName))
+            return Results.NotFound();
+
+        var client = httpClientFactory.CreateClient("waldau_local_relay");
+        using var forward = new HttpRequestMessage(
+            HttpMethod.Get,
+            "internal/events/files/" + Uri.EscapeDataString(fileName));
+        forward.Headers.TryAddWithoutValidation("X-Relay-Secret", provided);
+
+        using var response = await client.SendAsync(forward);
+        if (!response.IsSuccessStatusCode)
+            return Results.StatusCode((int)response.StatusCode);
+
+        var bytes = await response.Content.ReadAsByteArrayAsync();
+        var contentType = response.Content.Headers.ContentType?.MediaType
+                          ?? NewsMediaPath.ContentType(fileName);
+        return Results.File(bytes, contentType);
+    });
+
     app.MapGet("/internal/visits", async (
         HttpRequest request,
         IEventService events,
