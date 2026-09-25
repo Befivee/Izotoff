@@ -19,10 +19,11 @@ public class HomeController(IPublicVisitCatalog visits, IPublicNewsCatalog news)
         ViewData["BodyClass"] = "page-home";
 
         var latestNews = await news.GetLatestAsync(3, cancellationToken);
+        var allVisits = await visits.GetAllAsync(cancellationToken);
         var model = new HomeIndexViewModel
         {
             FeaturedNews = latestNews.Select(item => item.ToHomeItem()).ToList(),
-            UpcomingEvents = await visits.GetUpcomingAsync(3, cancellationToken)
+            UpcomingEvents = allVisits.Take(3).ToList()
         };
 
         return View(model);
