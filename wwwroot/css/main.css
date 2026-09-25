@@ -1279,7 +1279,9 @@ main {
   box-shadow: 0 16px 40px rgba(42, 42, 46, 0.1);
 }
 .event-card__image {
-  height: 220px;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  height: auto;
   background-color: #1c3b2e;
   background-size: cover;
   background-position: center;
@@ -2418,7 +2420,7 @@ main {
 }
 
 .news-showcase__media {
-  min-height: 280px;
+  width: 100%;
 }
 
 .news-gallery {
@@ -2430,8 +2432,9 @@ main {
 
 .news-gallery__viewport {
   position: relative;
-  flex: 1;
-  min-height: 260px;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  min-height: 0;
   border-radius: 20px;
   overflow: hidden;
   background: #e8e4de;
@@ -2441,7 +2444,7 @@ main {
   position: relative;
   width: 100%;
   height: 100%;
-  min-height: 260px;
+  min-height: 0;
 }
 
 .news-gallery__slide {
@@ -2577,7 +2580,9 @@ main {
   }
 }
 .visit-details__media {
-  min-height: 220px;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  min-height: 0;
   border-radius: 12px;
   background-size: cover;
   background-position: center;
