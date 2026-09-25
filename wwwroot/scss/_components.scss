@@ -410,25 +410,33 @@
     overflow: hidden;
   }
 
-  &__details {
-    display: inline-flex;
+  &__actions {
+    display: flex;
     align-items: center;
-    margin-top: $space-xs;
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: $color-green;
-    text-decoration: none;
-    border-bottom: 1px solid transparent;
-    transition: border-color 0.2s ease, color 0.2s ease;
+    gap: $space-sm;
+    margin-top: auto;
+  }
+
+  &__details {
+    margin-left: auto;
+    background: $color-surface !important;
+    color: $color-primary;
+    border-color: $color-primary;
 
     &:hover {
-      color: $color-burgundy;
-      border-bottom-color: currentColor;
+      background: $color-surface !important;
+      color: $color-primary-dark;
+      border-color: $color-primary-dark;
+      transform: translateY(-1px);
     }
   }
 
   &__details[hidden] {
-    display: none;
+    display: none !important;
+  }
+
+  &__body .btn {
+    align-self: auto;
   }
 }
 

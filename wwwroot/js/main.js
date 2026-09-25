@@ -680,14 +680,15 @@
     });
   })();
 
-  // Event description clamp — show «Подробнее» when text exceeds 5 lines
+  // Show «Подробнее» only when description exceeds 5 lines (no expand-in-place)
   document.querySelectorAll('[data-event-desc]').forEach((wrap) => {
     const desc = wrap.querySelector('.event-card__desc');
-    const more = wrap.querySelector('[data-event-more]');
-    if (!desc || !more) return;
+    const card = wrap.closest('.event-card');
+    const details = card?.querySelector('[data-event-details]');
+    if (!desc || !details) return;
 
     if (desc.scrollHeight > desc.clientHeight + 1)
-      more.hidden = false;
+      details.hidden = false;
   });
 
   window.IzotoffApp = {

@@ -1335,28 +1335,31 @@ main {
   overflow: hidden;
   flex: 1;
 }
-.event-card__details {
-  display: inline-flex;
+.event-card__actions {
+  display: flex;
   align-items: center;
-  margin-top: 0.5rem;
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: #2d4a3e;
+  gap: 1rem;
+  margin-top: auto;
+}
+.event-card__details {
+  margin-left: auto;
+  background: #ffffff !important;
+  color: #1c3b2e;
+  border-color: #1c3b2e;
   text-decoration: none;
-  border-bottom: 1px solid transparent;
-  transition: border-color 0.2s ease, color 0.2s ease;
 }
 .event-card__details:hover {
-  color: #5c1f2e;
-  border-bottom-color: currentColor;
+  background: #ffffff !important;
+  color: #10241c;
+  border-color: #10241c;
+  transform: translateY(-1px);
 }
 .event-card__details[hidden] {
-  display: none;
+  display: none !important;
 }
 
 .event-card__body .btn {
-  margin-top: auto;
-  align-self: flex-start;
+  align-self: auto;
 }
 
 .events-empty {
