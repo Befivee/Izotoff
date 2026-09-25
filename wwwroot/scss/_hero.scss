@@ -190,7 +190,13 @@
     }
 
     &--photo::after {
-      @include hero-photo-overlay;
+      background: linear-gradient(
+        to bottom,
+        rgba(20, 14, 12, 0.42) 0%,
+        rgba(20, 14, 12, 0.58) 28%,
+        rgba(20, 14, 12, 0.78) 58%,
+        rgba(20, 14, 12, 0.9) 100%
+      );
     }
   }
 
