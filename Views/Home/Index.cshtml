@@ -46,6 +46,25 @@
 
 <partial name="_PartnerBanner" />
 
+<section class="section section--events" aria-labelledby="visits-title">
+    <div class="container-xl">
+        <header class="section-header section-header--row reveal">
+            <div>
+                <h2 id="visits-title" class="section-header__title">Посещение</h2>
+                <p class="section-header__lead">Основной визит на ферму и дополнительные программы</p>
+            </div>
+            <a asp-controller="Excursion" asp-action="Index" class="link-arrow">Все посещения</a>
+        </header>
+        <div class="cards-grid cards-grid--3">
+            <partial name="Components/_PinnedVisitCard" />
+            @foreach (var evt in Model.UpcomingEvents)
+            {
+                <partial name="Components/_EventCard" model="evt" />
+            }
+        </div>
+    </div>
+</section>
+
 <partial name="Components/_HomeNewsShowcase" model="Model.FeaturedNews" />
 
 <section class="section section--why" aria-labelledby="why-title">
@@ -74,25 +93,6 @@
                 <h3>Вкус региона</h3>
                 <p>От нежного фермерского сыра до игристых напитков и будущих вин — всё создано на земле Калининградской области.</p>
             </article>
-        </div>
-    </div>
-</section>
-
-<section class="section section--events" aria-labelledby="visits-title">
-    <div class="container-xl">
-        <header class="section-header section-header--row reveal">
-            <div>
-                <h2 id="visits-title" class="section-header__title">Посещение</h2>
-                <p class="section-header__lead">Основной визит на ферму и дополнительные программы</p>
-            </div>
-            <a asp-controller="Excursion" asp-action="Index" class="link-arrow">Все посещения</a>
-        </header>
-        <div class="cards-grid cards-grid--3">
-            <partial name="Components/_PinnedVisitCard" />
-            @foreach (var evt in Model.UpcomingEvents)
-            {
-                <partial name="Components/_EventCard" model="evt" />
-            }
         </div>
     </div>
 </section>

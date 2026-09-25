@@ -34,7 +34,8 @@ public class PublicVisitCatalog(
         var today = DateTime.Today;
         return (await GetAllAsync(cancellationToken))
             .Where(e => e.EventDate.Date >= today)
-            .OrderBy(e => e.EventDate)
+            .OrderByDescending(e => e.IsCollaboration)
+            .ThenBy(e => e.EventDate)
             .Take(count)
             .ToList();
     }
@@ -70,7 +71,11 @@ public class PublicVisitCatalog(
             if (payload is null)
                 return [];
 
-            return payload.Select(item => item.ToEvent()).ToList();
+            return payload
+                .Select(item => item.ToEvent())
+                .OrderByDescending(e => e.IsCollaboration)
+                .ThenBy(e => e.EventDate)
+                .ToList();
         }
         catch (Exception ex) when (ex is not OperationCanceledException)
         {
@@ -97,13 +102,17 @@ public sealed class VisitRelayDto
     [JsonPropertyName("imagePath")]
     public string ImagePath { get; set; } = string.Empty;
 
+    [JsonPropertyName("isCollaboration")]
+    public bool IsCollaboration { get; set; }
+
     public static VisitRelayDto From(Event entity) => new()
     {
         Id = entity.Id,
         Title = entity.Title,
         Description = entity.Description,
         EventDate = entity.EventDate,
-        ImagePath = entity.ImagePath
+        ImagePath = entity.ImagePath,
+        IsCollaboration = entity.IsCollaboration
     };
 
     public Event ToEvent() => new()
@@ -112,6 +121,7 @@ public sealed class VisitRelayDto
         Title = Title,
         Description = Description,
         EventDate = EventDate,
-        ImagePath = EventMediaPath.ToSiteProxyToken(ImagePath)
+        ImagePath = EventMediaPath.ToSiteProxyToken(ImagePath),
+        IsCollaboration = IsCollaboration
     };
 }

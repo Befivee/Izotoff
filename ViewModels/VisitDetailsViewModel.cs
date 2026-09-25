@@ -10,6 +10,7 @@ public class VisitDetailsViewModel
     public DateTime? EventDate { get; init; }
     public string? ImagePath { get; init; }
     public bool IsPinned { get; init; }
+    public bool IsCollaboration { get; init; }
     public string BookingTourKind { get; init; } = "self";
 
     public static VisitDetailsViewModel FromPinned() => new()
@@ -28,6 +29,7 @@ public class VisitDetailsViewModel
         EventDate = entity.EventDate,
         ImagePath = entity.DisplayImagePath,
         IsPinned = false,
+        IsCollaboration = entity.IsCollaboration,
         BookingTourKind = "self"
     };
 }

@@ -30,9 +30,15 @@
 
 <section class="section visit-details" aria-label="Описание посещения">
     <div class="container-xl visit-details__layout reveal">
-        @if (!string.IsNullOrWhiteSpace(Model.ImagePath))
+        @if (!string.IsNullOrWhiteSpace(Model.ImagePath) || Model.IsCollaboration)
         {
-            <div class="visit-details__media" style="--card-bg: url('@Model.ImagePath')" role="img" aria-hidden="true"></div>
+            <div class="visit-details__media-col">
+                @if (!string.IsNullOrWhiteSpace(Model.ImagePath))
+                {
+                    <div class="visit-details__media" style="--card-bg: url('@Model.ImagePath')" role="img" aria-hidden="true"></div>
+                }
+                <partial name="Components/_CollaborationStrip" model="Model.IsCollaboration" />
+            </div>
         }
         <div class="visit-details__content">
             <div class="visit-details__text">@Model.Description</div>

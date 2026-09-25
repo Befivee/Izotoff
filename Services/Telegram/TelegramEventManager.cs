@@ -117,7 +117,7 @@ public partial class TelegramEventManager(
 
         await bot.SendMessage(
             chatId,
-            "➕ Новое посещение\n\nШаг 1 из 4\nВведите название:",
+            "➕ Новое посещение\n\nШаг 1 из 5\nВведите название:",
             replyMarkup: TelegramKeyboards.Remove(),
             cancellationToken: cancellationToken);
     }
@@ -230,6 +230,9 @@ public partial class TelegramEventManager(
                 case TelegramBotState.WaitingForEventDate:
                     await HandleWizardDateAsync(bot, chatId, text, cancellationToken);
                     break;
+                case TelegramBotState.WaitingForCollaboration:
+                    await HandleWizardCollaborationAsync(bot, chatId, text, cancellationToken);
+                    break;
                 case TelegramBotState.WaitingForNewTitle:
                     await HandleEditTitleAsync(bot, chatId, text, cancellationToken);
                     break;
@@ -302,7 +305,7 @@ public partial class TelegramEventManager(
             }
 
             if (session.State == TelegramBotState.WaitingForEventImage)
-                await CompleteAddWizardAsync(bot, chatId, message, cancellationToken);
+                await AdvanceToCollaborationStepAsync(bot, chatId, message, cancellationToken);
             else
                 await CompleteEditImageAsync(bot, chatId, message, cancellationToken);
         }
@@ -329,7 +332,7 @@ public partial class TelegramEventManager(
         session.DraftTitle = text;
         session.State = TelegramBotState.WaitingForEventDescription;
 
-        await bot.SendMessage(chatId, "Шаг 2 из 4\nВведите описание:", replyMarkup: TelegramKeyboards.Remove(), cancellationToken: cancellationToken);
+        await bot.SendMessage(chatId, "Шаг 2 из 5\nВведите описание:", replyMarkup: TelegramKeyboards.Remove(), cancellationToken: cancellationToken);
     }
 
     private async Task HandleWizardDescriptionAsync(ITelegramBotClient bot, long chatId, string text, CancellationToken cancellationToken)
@@ -344,7 +347,7 @@ public partial class TelegramEventManager(
         session.DraftDescription = text;
         session.State = TelegramBotState.WaitingForEventDate;
 
-        await bot.SendMessage(chatId, "Шаг 3 из 4\nВведите дату (например: 14.06.2026):", replyMarkup: TelegramKeyboards.Remove(), cancellationToken: cancellationToken);
+        await bot.SendMessage(chatId, "Шаг 3 из 5\nВведите дату (например: 14.06.2026):", replyMarkup: TelegramKeyboards.Remove(), cancellationToken: cancellationToken);
     }
 
     private async Task HandleWizardDateAsync(ITelegramBotClient bot, long chatId, string text, CancellationToken cancellationToken)
@@ -361,7 +364,7 @@ public partial class TelegramEventManager(
 
         await bot.SendMessage(
             chatId,
-            "Шаг 4 из 4\nОтправьте изображение или «-» для стандартного:",
+            "Шаг 4 из 5\nОтправьте изображение или «-» для стандартного:",
             replyMarkup: TelegramKeyboards.Remove(),
             cancellationToken: cancellationToken);
     }
@@ -376,32 +379,66 @@ public partial class TelegramEventManager(
 
         var session = stateService.GetOrCreate(chatId);
         if (session.State == TelegramBotState.WaitingForEventImage)
-            await CompleteAddWizardWithPathAsync(bot, chatId, DefaultImagePath, cancellationToken);
+            await AskCollaborationStepAsync(bot, chatId, DefaultImagePath, cancellationToken);
         else
             await CompleteEditImageWithPathAsync(bot, chatId, DefaultImagePath, cancellationToken);
     }
 
-    private async Task CompleteAddWizardAsync(
+    private async Task AdvanceToCollaborationStepAsync(
         ITelegramBotClient bot,
         long chatId,
         Message message,
         CancellationToken cancellationToken)
     {
         var imagePath = await DownloadAndSavePhotoAsync(bot, message, cancellationToken);
-        await CompleteAddWizardWithPathAsync(bot, chatId, imagePath, cancellationToken);
+        await AskCollaborationStepAsync(bot, chatId, imagePath, cancellationToken);
     }
 
-    private async Task CompleteAddWizardWithPathAsync(
+    private async Task AskCollaborationStepAsync(
         ITelegramBotClient bot,
         long chatId,
         string imagePath,
         CancellationToken cancellationToken)
     {
         var session = stateService.GetOrCreate(chatId);
+        session.DraftImagePath = imagePath;
+        session.State = TelegramBotState.WaitingForCollaboration;
+
+        await bot.SendMessage(
+            chatId,
+            "Шаг 5 из 5\nПлашка коллаборации с партнёром?\n«+» — да, «-» — нет:",
+            replyMarkup: TelegramKeyboards.Remove(),
+            cancellationToken: cancellationToken);
+    }
+
+    private async Task HandleWizardCollaborationAsync(
+        ITelegramBotClient bot,
+        long chatId,
+        string text,
+        CancellationToken cancellationToken)
+    {
+        if (text is not ("+" or "-"))
+        {
+            await bot.SendMessage(chatId, "Отправьте «+» (с плашкой) или «-» (без плашки).", cancellationToken: cancellationToken);
+            return;
+        }
+
+        var session = stateService.GetOrCreate(chatId);
+        session.DraftIsCollaboration = text == "+";
+        await CompleteAddWizardAsync(bot, chatId, cancellationToken);
+    }
+
+    private async Task CompleteAddWizardAsync(
+        ITelegramBotClient bot,
+        long chatId,
+        CancellationToken cancellationToken)
+    {
+        var session = stateService.GetOrCreate(chatId);
 
         if (string.IsNullOrWhiteSpace(session.DraftTitle) ||
             string.IsNullOrWhiteSpace(session.DraftDescription) ||
-            session.DraftEventDate is null)
+            session.DraftEventDate is null ||
+            string.IsNullOrWhiteSpace(session.DraftImagePath))
         {
             session.Reset();
             await bot.SendMessage(chatId, "⚠️ Данные мастера утеряны. Начните заново.", cancellationToken: cancellationToken);
@@ -414,7 +451,8 @@ public partial class TelegramEventManager(
             Title = session.DraftTitle,
             Description = session.DraftDescription,
             EventDate = session.DraftEventDate.Value,
-            ImagePath = imagePath,
+            ImagePath = session.DraftImagePath,
+            IsCollaboration = session.DraftIsCollaboration,
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow
         }, cancellationToken);

@@ -13,6 +13,7 @@ public static class SiteInfo
     public const string PartnerLead =
         "Средневековая крепость XIII века в посёлке Низовье — экскурсии, мероприятия и живая история.";
     public const string PartnerCta = "Перейти на сайт замка";
+    public const string CollaborationLabel = "Совместно с Замком Вальдау";
     public const string HomePageTitle = "IZOTOFF — официальный сайт";
     public const string BrowserTitle = HomePageTitle;
     public const string Tagline = "Первый и самый большой виноградник Калининградской области";

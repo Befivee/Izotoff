@@ -4,6 +4,7 @@
     <div class="event-card__image"
          style="@(string.IsNullOrWhiteSpace(Model.DisplayImagePath) ? null : $"--card-bg: url('{Model.DisplayImagePath}')")"
          aria-hidden="true"></div>
+    <partial name="Components/_CollaborationStrip" model="Model.IsCollaboration" />
     <div class="event-card__body">
         <time class="event-card__date" datetime="@Model.EventDate.ToString("yyyy-MM-dd")">
             @Model.EventDate.ToString("d MMMM yyyy", new System.Globalization.CultureInfo("ru-RU"))
