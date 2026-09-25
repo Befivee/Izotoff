@@ -118,13 +118,9 @@
   gap: $space-md;
   align-items: stretch;
 
-  > .tour-card {
-    height: 100%;
-  }
-
+  > .tour-card,
   > .event-card {
-    align-self: start;
-    height: auto;
+    height: 100%;
   }
 
   &--2 {
@@ -344,6 +340,9 @@
 
 // Event card
 .event-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   border-radius: $radius-md;
   overflow: hidden;
   background: $color-surface;
@@ -359,6 +358,7 @@
   }
 
   &__image {
+    flex-shrink: 0;
     width: 100%;
     aspect-ratio: 3 / 4;
     height: auto;
@@ -384,7 +384,12 @@
     background-image: linear-gradient(160deg, $color-green 0%, $color-burgundy-dark 100%);
   }
 
-  &__body { padding: $space-md; }
+  &__body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: $space-md;
+  }
   &__date {
     display: block;
     font-size: 0.8125rem;
@@ -397,6 +402,7 @@
   &__title { font-size: 1.35rem; margin-bottom: $space-sm; }
 
   &__desc-wrap {
+    flex: 1;
     margin-bottom: $space-sm;
   }
 

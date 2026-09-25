@@ -829,12 +829,9 @@ main {
   gap: 1.5rem;
   align-items: stretch;
 }
-.cards-grid > .tour-card {
-  height: 100%;
-}
+.cards-grid > .tour-card,
 .cards-grid > .event-card {
-  align-self: start;
-  height: auto;
+  height: 100%;
 }
 @media (min-width: 768px) {
   .cards-grid--2 {
@@ -1268,6 +1265,7 @@ main {
 .event-card {
   display: flex;
   flex-direction: column;
+  height: 100%;
   border-radius: 12px;
   overflow: hidden;
   background: #ffffff;
@@ -1279,6 +1277,7 @@ main {
   box-shadow: 0 16px 40px rgba(42, 42, 46, 0.1);
 }
 .event-card__image {
+  flex-shrink: 0;
   width: 100%;
   aspect-ratio: 3 / 4;
   height: auto;
@@ -1323,6 +1322,7 @@ main {
   margin-bottom: 1rem;
 }
 .event-card__desc-wrap {
+  flex: 1;
   margin-bottom: 1rem;
 }
 .event-card__desc {
@@ -1335,7 +1335,6 @@ main {
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 5;
   overflow: hidden;
-  flex: 1;
 }
 .event-card__actions {
   display: flex;
