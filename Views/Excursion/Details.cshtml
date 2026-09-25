@@ -1,0 +1,52 @@
+@model VisitDetailsViewModel
+@{
+    ViewData["Title"] = Model.Title;
+    ViewData["MetaDescription"] = Model.Description.Length > 160
+        ? Model.Description[..157] + "…"
+        : Model.Description;
+}
+
+<section class="page-hero page-hero--compact" aria-labelledby="page-title">
+    <partial name="_PageHeroPhoto" model="@(new PageHeroPhotoViewModel("page-hero__bg--excursions"))" />
+    <div class="container-xl page-hero__content reveal">
+        <p class="page-hero__eyebrow">
+            <a asp-controller="Excursion" asp-action="Index" class="page-hero__back">← К посещениям</a>
+        </p>
+        <h1 id="page-title" class="page-hero__title">@Model.Title</h1>
+        @if (Model.EventDate is DateTime date)
+        {
+            <p class="page-hero__lead">
+                <time datetime="@date.ToString("yyyy-MM-dd")">
+                    @date.ToString("d MMMM yyyy", new System.Globalization.CultureInfo("ru-RU"))
+                </time>
+            </p>
+        }
+        else if (!string.IsNullOrWhiteSpace(Model.ScheduleLabel))
+        {
+            <p class="page-hero__lead">@Model.ScheduleLabel</p>
+        }
+    </div>
+</section>
+
+<section class="section visit-details" aria-label="Описание посещения">
+    <div class="container-xl visit-details__layout reveal">
+        @if (!string.IsNullOrWhiteSpace(Model.ImagePath))
+        {
+            <div class="visit-details__media" style="--card-bg: url('@Model.ImagePath')" role="img" aria-hidden="true"></div>
+        }
+        <div class="visit-details__content">
+            <div class="visit-details__text">@Model.Description</div>
+            <div class="visit-details__actions">
+                <button type="button"
+                        class="btn btn-primary btn-lg"
+                        data-booking-open
+                        data-tour-kind="@Model.BookingTourKind"
+                        data-event-title="@Model.Title"
+                        data-event-date="@(Model.EventDate?.ToString("yyyy-MM-dd"))">
+                    Записаться
+                </button>
+                <a asp-controller="Excursion" asp-action="Index" class="btn btn-outline btn-lg">Все посещения</a>
+            </div>
+        </div>
+    </div>
+</section>

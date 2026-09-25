@@ -204,6 +204,13 @@
   }
 
   &__title { color: #fff; margin-bottom: $space-xs; text-shadow: 0 2px 24px rgba(0, 0, 0, 0.3); }
+  &__eyebrow {
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    margin: 0 0 $space-xs;
+    opacity: 0.9;
+  }
   &__lead {
     font-size: 1.0625rem;
     opacity: 0.9;

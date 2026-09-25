@@ -10,6 +10,7 @@ public interface IPublicVisitCatalog
 {
     Task<IReadOnlyList<Event>> GetAllAsync(CancellationToken cancellationToken = default);
     Task<IReadOnlyList<Event>> GetUpcomingAsync(int count, CancellationToken cancellationToken = default);
+    Task<Event?> GetByIdAsync(int id, CancellationToken cancellationToken = default);
 }
 
 /// <summary>Timeweb reads visits from the Hostkey bot DB; locally uses SQLite.</summary>
@@ -36,6 +37,12 @@ public class PublicVisitCatalog(
             .OrderBy(e => e.EventDate)
             .Take(count)
             .ToList();
+    }
+
+    public async Task<Event?> GetByIdAsync(int id, CancellationToken cancellationToken = default)
+    {
+        var all = await GetAllAsync(cancellationToken);
+        return all.FirstOrDefault(e => e.Id == id);
     }
 
     private async Task<IReadOnlyList<Event>?> TryFetchRemoteAsync(CancellationToken cancellationToken)

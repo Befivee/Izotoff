@@ -18,4 +18,20 @@ public class ExcursionController(IPublicVisitCatalog visits) : Controller
             Visits = await visits.GetAllAsync(cancellationToken)
         });
     }
+
+    public async Task<IActionResult> Details(int id, CancellationToken cancellationToken)
+    {
+        var visit = await visits.GetByIdAsync(id, cancellationToken);
+        if (visit is null)
+            return NotFound();
+
+        ViewData["OgType"] = "article";
+        return View(VisitDetailsViewModel.FromEvent(visit));
+    }
+
+    public IActionResult Pinned()
+    {
+        ViewData["OgType"] = "article";
+        return View("Details", VisitDetailsViewModel.FromPinned());
+    }
 }

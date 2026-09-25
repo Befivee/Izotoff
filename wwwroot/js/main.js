@@ -680,21 +680,14 @@
     });
   })();
 
-  // Event description collapse (5 lines + round expand button)
+  // Event description clamp — show «Подробнее» when text exceeds 5 lines
   document.querySelectorAll('[data-event-desc]').forEach((wrap) => {
     const desc = wrap.querySelector('.event-card__desc');
-    const btn = wrap.querySelector('[data-event-more]');
-    if (!desc || !btn) return;
+    const more = wrap.querySelector('[data-event-more]');
+    if (!desc || !more) return;
 
-    const needsMore = desc.scrollHeight > desc.clientHeight + 1;
-    if (!needsMore) return;
-
-    btn.hidden = false;
-    btn.addEventListener('click', () => {
-      const expanded = wrap.classList.toggle('is-expanded');
-      btn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
-      btn.setAttribute('aria-label', expanded ? 'Свернуть' : 'Показать больше');
-    });
+    if (desc.scrollHeight > desc.clientHeight + 1)
+      more.hidden = false;
   });
 
   window.IzotoffApp = {
