@@ -18,6 +18,7 @@ public class VisitDetailsViewModel
         Title = PinnedVisit.Title,
         Description = PinnedVisit.Description,
         ScheduleLabel = PinnedVisit.ScheduleLabel,
+        ImagePath = PinnedVisit.ImagePath,
         IsPinned = true,
         BookingTourKind = "guided"
     };

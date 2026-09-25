@@ -10,4 +10,6 @@ public static class PinnedVisit
         "Встреча с животными, дегустации, прогулка по территории. По предварительной записи.";
 
     public const string ScheduleLabel = "По записи";
+
+    public const string ImagePath = "/images/Welcome.jpg";
 }
