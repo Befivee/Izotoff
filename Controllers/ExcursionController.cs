@@ -9,8 +9,8 @@ public class ExcursionController(IPublicVisitCatalog visits) : Controller
     public async Task<IActionResult> Index(CancellationToken cancellationToken)
     {
         ViewData["MetaDescription"] =
-            "Посещение IZOTOFF: эко-ферма, сыроварня и программы на винограднике. Запись онлайн.";
-        ViewData["MetaKeywords"] = "IZOTOFF, посещение фермы, экскурсия, виноградник, дегустация, Калининградская область";
+            "Посещение экофермы IZOTOFF: экскурсии на ферму и виноградник в Калининградской области, дегустации. Запись онлайн.";
+        ViewData["MetaKeywords"] = "IZOTOFF, посещение фермы, экоферма, экскурсия, виноградник, дегустация, Калининградская область";
         ViewData["OgType"] = "website";
 
         return View(new VisitIndexViewModel

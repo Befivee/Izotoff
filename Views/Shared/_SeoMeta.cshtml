@@ -5,7 +5,7 @@
     var pageTitle = ViewData["Title"]?.ToString();
     var documentTitle = SiteInfo.GetDocumentTitle(pageTitle, ViewData["MetaTitle"]?.ToString());
     var description = ViewData["MetaDescription"]?.ToString()
-        ?? "IZOTOFF — семейная эко-ферма и первый виноградник Калининградской области. Экскурсии, дегустации, мероприятия. Запись онлайн.";
+        ?? "IZOTOFF — семейная экоферма и виноградник в Калининградской области. Экскурсии, дегустации, мероприятия. Запись онлайн.";
     var keywords = ViewData["MetaKeywords"]?.ToString() ?? site.DefaultKeywords;
     var ogType = ViewData["OgType"]?.ToString() ?? "website";
     var ogImage = ViewData["OgImage"]?.ToString();

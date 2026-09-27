@@ -14,9 +14,9 @@ public static class SiteInfo
         "Средневековая крепость XIII века в посёлке Низовье — экскурсии, мероприятия и живая история.";
     public const string PartnerCta = "Перейти на сайт замка";
     public const string CollaborationLabel = "Совместно с Замком Вальдау";
-    public const string HomePageTitle = "IZOTOFF — официальный сайт";
+    public const string HomePageTitle = "IZOTOFF — экоферма и виноградник в Калининградской области";
     public const string BrowserTitle = HomePageTitle;
-    public const string Tagline = "Первый и самый большой виноградник Калининградской области";
+    public const string Tagline = "Семейная экоферма, сыроварня и первый виноградник области — пос. Алексеевка";
     public const string Location = "Калининградская область, Зеленоградский район, пос. Алексеевка";
     public const string Address = "Калининградская обл., Зеленоградский район, пос. Алексеевка";
     public const string PhoneName = "Елизавета";

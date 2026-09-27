@@ -8,10 +8,10 @@ public class SiteSettings
 
     public string BaseUrl { get; set; } = DefaultBaseUrl;
 
-    public string SiteName { get; set; } = "IZOTOFF — официальный сайт";
+    public string SiteName { get; set; } = "IZOTOFF — экоферма и виноградник в Калининградской области";
 
     public string IndexNowKey { get; set; } = string.Empty;
 
     public string DefaultKeywords { get; set; } =
-        "IZOTOFF, Изотов, сыроварня, виноградник, Калининградская область, эко-ферма, дегустация, экскурсии, винные туры";
+        "IZOTOFF, Изотов, экоферма, эко-ферма, виноградник, ферма, сыроварня, Калининградская область, дегустация, экскурсии";
 }

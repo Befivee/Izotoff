@@ -11,9 +11,9 @@ public class HomeController(IPublicVisitCatalog visits, IPublicNewsCatalog news)
     {
         ViewData["MetaTitle"] = SiteInfo.HomePageTitle;
         ViewData["MetaDescription"] =
-            "IZOTOFF — семейная эко-ферма и первый виноградник Калининградской области. Сыроварня, дегустации, экскурсии и мероприятия. Запись онлайн.";
+            "IZOTOFF — семейная экоферма и виноградник в Калининградской области: сыроварня, дегустации, экскурсии на ферму. Зеленоградский район, запись онлайн.";
         ViewData["MetaKeywords"] =
-            "IZOTOFF, Изотов, сыроварня, виноградник, Калининградская область, эко-ферма, дегустация, экскурсии, винные туры";
+            "IZOTOFF, Изотов, экоферма, эко-ферма, виноградник, ферма, сыроварня, Калининградская область, дегустация, экскурсии";
         ViewData["OgType"] = "website";
         ViewData["OgImage"] = null;
         ViewData["BodyClass"] = "page-home";

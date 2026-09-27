@@ -13,8 +13,8 @@ public class NewsController(
 {
     public async Task<IActionResult> Index(CancellationToken cancellationToken)
     {
-        ViewData["MetaDescription"] = "Новости IZOTOFF — семейная эко-ферма и виноградник.";
-        ViewData["MetaKeywords"] = "IZOTOFF, новости, ферма, виноградник";
+        ViewData["MetaDescription"] = "Новости IZOTOFF — экоферма, виноградник и сыроварня в Калининградской области.";
+        ViewData["MetaKeywords"] = "IZOTOFF, новости, экоферма, ферма, виноградник";
         var items = await news.GetAllAsync(cancellationToken);
         return View(items.Select(item => item.ToHomeItem()).ToList());
     }
