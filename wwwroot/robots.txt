@@ -9,6 +9,6 @@ Disallow: /Home/Error
 Disallow: /Home/ServerError
 Disallow: /Home/NotFound
 
-Host: https://вальдау.рф
+Host: https://изотофф39.рф
 
-Sitemap: https://вальдау.рф/sitemap.xml
+Sitemap: https://изотофф39.рф/sitemap.xml
